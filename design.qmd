@@ -12,6 +12,7 @@ Block diagram of the entire system, indicating progress
 :::
 
 
+
 ## Sensor
 
 ::: {#fig-sen-jack}
@@ -79,3 +80,7 @@ Block diagram of the FPGA and LED matrix
 
 We have designed and started implementation of the FPGA, but it is not yet functional. The design for our first `demo_top` module is shown in @fig-fpga-bd. The module that shifts in the SPI data was modified from aes_spi from Lab 7. However, we don't need to send anything back to the MCU, so SDO will shift out nonsense. Because we intended to only use 12 bits of the received data because our resolution is only 12 bits, all our ports were sized for 12 bits, not 16. This is easily corrected in the top module. The `single` module has an FSM to determine which screen to show based on who is currently winning and who has been winning most recently. The current setup uses a `demo_display` module takes that screen and converts it into a simple led bar to show a coarse resolution. This is a temporary setup that will be replaced soon with the full LED matrix module.\ 
 
+
+## Appendix
+
+All our MCU and FPGA code for this project can be found on [our Github repo](https://github.com/ellieSundheim/e155-project).
