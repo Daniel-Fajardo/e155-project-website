@@ -1,0 +1,9 @@
+---
+title: "Midpoint Status"
+date: "11/19/24"
+---
+
+# Project Description
+
+The project will implement electromyographic (EMG) sensors to measure the intensity of a flexed muscle. The calibrated intensity data
+will then be creatively displayed on a 16x32 LED matrix.
