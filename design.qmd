@@ -2,3 +2,36 @@
 title: "Design"
 date: ""
 ---
+
+
+## Sensor
+
+::: {#fig-sen-jack}
+![](images/electrode_jack_map.png)
+
+Map of which electrode goes where on the 3.5mm jack
+:::
+
+
+
+## MCU
+### Design
+
+::: {#fig-mcu-overall-flow}
+![](images/MCU_flow.png)
+
+Graphic showing how the signals flow in the MCU
+:::
+
+The ADC was our new peripheral for the project, and its device driver is complete and functional. After initializing, ADC1 reads in channels 10 and 11 from pins PA5 and PA6. These will be players 1 and 2 respectively. Each time that the data register is read, the 16 bit data register is stored in a volatile uint_16t. The 16 bits are converted into two characters (8 bits) each, which are stored in an array via a pointer. \
+The other peripheral in use is the SPI peripheral. A pointer to the char array that the ADC populates is passed into a modified version of the lab 7 SPI code. It sends the 4 chars to the FPGA in the order MSB1, LSB1, MSB2, LSB2.\
+
+### Testing
+::: {#fig-mcu-4-char-spi}
+![](images/4_char_spi.jpg)
+
+SPI from the MCU to the FPGA.  
+D0 - CS, D1 - MOSI, D2 - MISO, D3 - SCK, D4 - LOAD
+:::
+As seen in @fig-mcu-4-char-spi, the ADC reads in the values and then the SPI peripheral sends them out. In addition to the regular SPI signals, there is also a `load` signal that we will use later to tell the FPGA when to shift in new data.\
+
