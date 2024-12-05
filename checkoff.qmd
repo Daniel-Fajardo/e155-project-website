@@ -1,0 +1,47 @@
+---
+title: "Checkoff"
+---
+
+## Specs
+
+- [ ] Uses a custom EMG sensor
+
+We built an analog circuit that amplifies the small electrical signals from a muscle into a range readable by the ADC.
+
+::: {#fig-sen-flex}
+![](images/ellie_flex_rectified.png)
+
+A representative flexing signal. The test subject flexed three times.
+:::
+
+- [ ] Device driver for ADC peripheral written
+
+We used a new peripheral for the STM32L432KC microcontroller, the Analog-to-Digital Converter or ADC. We wrote a new library for this sensor that provides initialization and read functions. 
+
+- [ ] SPI interface between MCU and FPGA
+
+We reused a previous peripheral, the Serial Peripheral Interface (SPI), to communicate information from the MCU to the FPGA. On the MCU side, the library function `sendPlayerData` sends 4 characters (upper and lower halves of each of the 12-bit voltages) and asserts a load signal. On the FPGA side, `receive_only_SPI` reads in the voltages based on a load signal and stores them when load is not asserted.
+
+::: {#fig-mcu-4-char-spi}
+![](images/4_char_spi.jpg)
+
+SPI from the MCU to the FPGA.  
+D0 - CS, D1 - MOSI, D2 - MISO, D3 - SCK, D4 - LOAD
+:::
+
+- [ ] Drives LED matrix 
+
+We use a counter to loop through all 8 pairs of rows (given by abcstate). From 0 to 31, we load in rgb data. From 32 to 24, lat is asserted. From 34 to 36, output enable is asserted to turn off the screen as we move to the next row.At 36, counter resets and abcstate increments.
+
+
+- [ ] Single player and multiplayer modes
+
+Single player mode can be switched to show either player's data as a bar chart. Multiplayer mode shows two competing bars, red and blue, to indicate the game progress. In single player mode, a decoder converts the data into chunks. In multiplayer mode, a decoder compares the two voltages and outputs the state of the game. We mux between their outputs (which are really states, but that we call screens) based on a mode switch. 
+
+TODO images of each screen
+
+- [ ] Game effects, e.g. loading screen and victory screens  
+
+There are additional states that don't display player data. They read in static .txt files to display more complex shapes, such as words. The victory screen also flashes to grab attention. 
+
+TODO images of game effect screens
