@@ -1,4 +1,45 @@
 ---
 title: "Documentation"
-date: ""
 ---
+
+To build this game, use the files on [our project Github](https://github.com/ellieSundheim/e155-project).
+
+## Bill of Materials
+
+| **Part**                         	| **Vendor**    	| **Quantity**          	| **Price** 	| **Link** 	|
+|----------------------------------	|---------------	|-----------------------	|-----------	|----------	|
+| EMG Cables                       	| Digikey       	| 2                     	| 11.38     	| [link](https://www.digikey.com/en/products/detail/sparkfun-electronics/CAB-12970/6833933)     	|
+| EMG Pads, 20 pack                	| Amazon        	| 1                     	| 8          	| [link](https://www.amazon.com/gp/product/B007MA4RKU/ref=ox_sc_act_title_1?smid=A1A856T6BHL77U&psc=1)     	|
+| AD 623 Instrumentation Amplifier 	| HMC Stockroom 	| 2                     	| 0         	| n/a      	|
+| TL072 Op Amp                     	| HMC Stockroom 	| 4                     	| 0         	| n/a      	|
+| Resistors, assorted              	| HMC Stockroom 	| 6x150k, 2x11k, 12x10k 	| 0         	| n/a      	|
+| 1N4148 Diode                     	| HMC Stockroom 	| 4                     	| 0         	| n/a      	|
+| Adafruit LED Matrix 32x16        	| Digikey       	| 1                     	| 24.95     	| [link](https://www.adafruit.com/product/420 )     	|
+|                                  	|               	|                       	|           	|          	|
+
+
+## Build Photos
+
+::: {#fig-box}
+![](images/3d_printed_box.jpg)
+
+3D printed enclosure
+:::
+
+::: {#fig-analog-bb}
+![](images/analog_breadboard.jpg)
+
+EMG sensors
+:::
+
+::: {#fig-fpga-led-bb}
+![](images/fpga_to_led_breadboard.jpg)
+
+FPGA to LED matrix 
+:::
+
+::: {#fig-all-pieces}
+![](images/everything_goes_in_the_box.jpg)
+
+Packing things into the box
+:::

@@ -17,7 +17,11 @@ website:
         text: Results
       - href: resources.qmd
         text: Resources
-      - about.qmd
+      - href: checkoff.qmd
+        text: Checkoff
+      - href: about.qmd
+        text: About Us
+      
 
 format:
   html:
