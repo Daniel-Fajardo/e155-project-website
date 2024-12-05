@@ -70,6 +70,13 @@ module has an FSM to determine which screen to show based on who is currently wi
 setup uses a `demo_display` module takes that screen and converts it into a simple led bar to show a coarse resolution. This is a 
 temporary setup that will be replaced soon with the full LED matrix module.\ 
 
+The FPGA design contains a SPI recieve moduls, two modules for selecting the screen (in single player or multiplayer mode), two modules 
+which interface the selected screen into output pins for the LED matrix, and a multiplex which selects the set of output pins based on 
+the player mode. The single and multiplayer processes are very similar. The single module is an asyncrhonous module, which outputs a 
+6-bit screen value depending on the input of 1 players' digital signal magnitude. The multi module is a synchronous module, which also 
+outputs a screen value, but is determined by which players' digital signal magnitude is greater. The multi module also has a couple preset 
+screen matrices for winning screens and a start sequence, saved as .txt files. 
+
 ::: {#fig-single-fsm-tb}
 ![](images/Sim Single.jpg)
 
@@ -118,6 +125,11 @@ Testbench of multidisplay module: view of one screen
 
 @fig-multi-abc testbench shows multidisplay zoomed in to show abc cycling through for a whole screen\
 
+
+### Discussion
+
+After the SPI module, single and multiplayer processes are run in parallel and then multiplexed before the system output, 
+however this multiplex could also be done earlier to reduce processing power.
 
 line 1  
 line 2
