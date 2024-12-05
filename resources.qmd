@@ -2,3 +2,10 @@
 title: "Resources"
 date: ""
 ---
+
+The following links were helpful to us in our build process:
+
+- [Instructable for EMG Sensor](https://www.instructables.com/Muscle-EMG-Sensor-for-a-Microcontroller/)
+This link explains how to build an earlier version of a sensor that we wanted to buy but was out of budget to this class. We got rid of the last few stages and swapped in the AD623 but mostly used this design.
+
+- []()

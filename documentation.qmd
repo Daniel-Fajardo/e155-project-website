@@ -1,4 +1,12 @@
 ---
 title: "Documentation"
-date: ""
 ---
+
+To build this game, use the files on [our project Github](https://github.com/ellieSundheim/e155-project).
+
+## Bill of Materials
+
+
+## Build Photos
+
+
