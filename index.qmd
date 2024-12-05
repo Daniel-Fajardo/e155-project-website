@@ -2,5 +2,17 @@
 title: "Hands-Free Arm Wrestling"
 ---
 
-Ever wanted to arm wrestle, but without actually having to arm wrestle? Our project lets you "wrestle" against a second player 
+Ever wanted to arm wrestle, but without actually having to arm wrestle? Look no further!
 
+
+## Specifications
+
+- [ ] Uses a custom EMG sensor
+- [ ] Device driver for ADC peripheral written
+- [ ] SPI interface between MCU and FPGA
+- [ ] Drives LED matrix 
+- [ ] Single player and multiplayer modes
+- [ ] Game effects, e.g. loading screen and victory screens  
+
+## Video 
+{{< video  https://youtu.be/EtVBqZWrvIg >}}
