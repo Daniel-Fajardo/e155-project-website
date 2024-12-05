@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Hands-Free Arm Wrestling – Hands-Free Arm Wrestling Project Page</title>
+<title>Checkoff – Hands-Free Arm Wrestling Project Page</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -89,7 +89,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
@@ -109,7 +109,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Resources</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./checkoff.html"> 
+    <a class="nav-link active" href="./checkoff.html" aria-current="page"> 
 <span class="menu-text">Checkoff</span></a>
   </li>  
   <li class="nav-item">
@@ -132,8 +132,7 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#specifications" id="toc-specifications" class="nav-link active" data-scroll-target="#specifications">Specifications</a></li>
-  <li><a href="#video" id="toc-video" class="nav-link" data-scroll-target="#video">Video</a></li>
+  <li><a href="#specs" id="toc-specs" class="nav-link active" data-scroll-target="#specs">Specs</a></li>
   </ul>
 </nav>
     </div>
@@ -142,7 +141,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Hands-Free Arm Wrestling</h1>
+<h1 class="title">Checkoff</h1>
 </div>
 
 
@@ -159,21 +158,55 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Ever wanted to arm wrestle, but without actually having to arm wrestle? Look no further!</p>
-<section id="specifications" class="level2">
-<h2 class="anchored" data-anchor-id="specifications">Specifications</h2>
+<section id="specs" class="level2">
+<h2 class="anchored" data-anchor-id="specs">Specs</h2>
 <ul class="task-list">
 <li><label><input type="checkbox">Uses a custom EMG sensor</label></li>
+</ul>
+<p>We built an analog circuit that amplifies the small electrical signals from a muscle into a range readable by the ADC.</p>
+<div id="fig-sen-flex" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sen-flex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/ellie_flex_rectified.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sen-flex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: A representative flexing signal. The test subject flexed three times.
+</figcaption>
+</figure>
+</div>
+<ul class="task-list">
 <li><label><input type="checkbox">Device driver for ADC peripheral written</label></li>
+</ul>
+<p>We used a new peripheral for the STM32L432KC microcontroller, the Analog-to-Digital Converter or ADC. We wrote a new library for this sensor that provides initialization and read functions.</p>
+<ul class="task-list">
 <li><label><input type="checkbox">SPI interface between MCU and FPGA</label></li>
+</ul>
+<p>We reused a previous peripheral, the Serial Peripheral Interface (SPI), to communicate information from the MCU to the FPGA. On the MCU side, the library function <code>sendPlayerData</code> sends 4 characters (upper and lower halves of each of the 12-bit voltages) and asserts a load signal. On the FPGA side, <code>receive_only_SPI</code> reads in the voltages based on a load signal and stores them when load is not asserted.</p>
+<div id="fig-mcu-4-char-spi" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mcu-4-char-spi-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/4_char_spi.jpg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mcu-4-char-spi-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: SPI from the MCU to the FPGA.<br>
+D0 - CS, D1 - MOSI, D2 - MISO, D3 - SCK, D4 - LOAD
+</figcaption>
+</figure>
+</div>
+<ul class="task-list">
 <li><label><input type="checkbox">Drives LED matrix</label></li>
+</ul>
+<p>We use a counter to loop through all 8 pairs of rows (given by abcstate). From 0 to 31, we load in rgb data. From 32 to 24, lat is asserted. From 34 to 36, output enable is asserted to turn off the screen as we move to the next row.At 36, counter resets and abcstate increments.</p>
+<ul class="task-list">
 <li><label><input type="checkbox">Single player and multiplayer modes</label></li>
+</ul>
+<p>Single player mode can be switched to show either player’s data as a bar chart. Multiplayer mode shows two competing bars, red and blue, to indicate the game progress. In single player mode, a decoder converts the data into chunks. In multiplayer mode, a decoder compares the two voltages and outputs the state of the game. We mux between their outputs (which are really states, but that we call screens) based on a mode switch.</p>
+<p>TODO images of each screen</p>
+<ul class="task-list">
 <li><label><input type="checkbox">Game effects, e.g.&nbsp;loading screen and victory screens</label></li>
 </ul>
-</section>
-<section id="video" class="level2">
-<h2 class="anchored" data-anchor-id="video">Video</h2>
-<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/EtVBqZWrvIg" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<p>There are additional states that don’t display player data. They read in static .txt files to display more complex shapes, such as words. The victory screen also flashes to grab attention.</p>
+<p>TODO images of game effect screens</p>
 
 
 </section>

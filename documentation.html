@@ -109,9 +109,12 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Resources</span></a>
   </li>  
   <li class="nav-item">
-    <span class="nav-link">
-<span class="menu-text">about.qmd</span>
-    </span>
+    <a class="nav-link" href="./checkoff.html"> 
+<span class="menu-text">Checkoff</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About Us</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -124,8 +127,15 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#bill-of-materials" id="toc-bill-of-materials" class="nav-link active" data-scroll-target="#bill-of-materials">Bill of Materials</a></li>
+  <li><a href="#build-photos" id="toc-build-photos" class="nav-link" data-scroll-target="#build-photos">Build Photos</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -149,8 +159,124 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>To build this game, use the files on <a href="https://github.com/ellieSundheim/e155-project">our project Github</a>.</p>
+<section id="bill-of-materials" class="level2">
+<h2 class="anchored" data-anchor-id="bill-of-materials">Bill of Materials</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th><strong>Part</strong></th>
+<th><strong>Vendor</strong></th>
+<th><strong>Quantity</strong></th>
+<th><strong>Price</strong></th>
+<th><strong>Link</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>EMG Cables</td>
+<td>Digikey</td>
+<td>2</td>
+<td>11.38</td>
+<td><a href="https://www.digikey.com/en/products/detail/sparkfun-electronics/CAB-12970/6833933">link</a></td>
+</tr>
+<tr class="even">
+<td>EMG Pads, 20 pack</td>
+<td>Amazon</td>
+<td>1</td>
+<td>8</td>
+<td><a href="https://www.amazon.com/gp/product/B007MA4RKU/ref=ox_sc_act_title_1?smid=A1A856T6BHL77U&amp;psc=1">link</a></td>
+</tr>
+<tr class="odd">
+<td>AD 623 Instrumentation Amplifier</td>
+<td>HMC Stockroom</td>
+<td>2</td>
+<td>0</td>
+<td>n/a</td>
+</tr>
+<tr class="even">
+<td>TL072 Op Amp</td>
+<td>HMC Stockroom</td>
+<td>4</td>
+<td>0</td>
+<td>n/a</td>
+</tr>
+<tr class="odd">
+<td>Resistors, assorted</td>
+<td>HMC Stockroom</td>
+<td>6x150k, 2x11k, 12x10k</td>
+<td>0</td>
+<td>n/a</td>
+</tr>
+<tr class="even">
+<td>1N4148 Diode</td>
+<td>HMC Stockroom</td>
+<td>4</td>
+<td>0</td>
+<td>n/a</td>
+</tr>
+<tr class="odd">
+<td>Adafruit LED Matrix 32x16</td>
+<td>Digikey</td>
+<td>1</td>
+<td>24.95</td>
+<td><a href="https://www.adafruit.com/product/420">link</a></td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="build-photos" class="level2">
+<h2 class="anchored" data-anchor-id="build-photos">Build Photos</h2>
+<div id="fig-box" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-box-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/3d_printed_box.jpg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-box-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: 3D printed enclosure
+</figcaption>
+</figure>
+</div>
+<div id="fig-analog-bb" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-analog-bb-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/analog_breadboard.jpg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-analog-bb-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: EMG sensors
+</figcaption>
+</figure>
+</div>
+<div id="fig-fpga-led-bb" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fpga-led-bb-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/fpga_to_led_breadboard.jpg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fpga-led-bb-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: FPGA to LED matrix
+</figcaption>
+</figure>
+</div>
+<div id="fig-all-pieces" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-all-pieces-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/everything_goes_in_the_box.jpg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-all-pieces-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Packing things into the box
+</figcaption>
+</figure>
+</div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
