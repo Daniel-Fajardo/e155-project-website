@@ -11,6 +11,8 @@ website:
         text: Design
       - href: documentation.qmd
         text: Documentation
+      - href: results.qmd
+        text: Results
       - href: resources.qmd
         text: Resources
       - href: about.qmd
