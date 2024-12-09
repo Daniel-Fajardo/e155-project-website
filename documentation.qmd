@@ -13,15 +13,15 @@ The checkoff sheet for our final demo to Prof Brake can be found [here](./checko
 
 ## Bill of Materials
 
-| **Part**                         	| **Vendor**    	| **Quantity**          	| **Price** 	| **Link** 	|
-|----------------------------------	|---------------	|-----------------------	|-----------	|----------	|
-| EMG Cables                       	| Digikey       	| 2                     	| 11.38     	| [link](https://www.digikey.com/en/products/detail/sparkfun-electronics/CAB-12970/6833933)     	|
-| EMG Pads, 20 pack                	| Amazon        	| 1                     	| 8          	| [link](https://www.amazon.com/gp/product/B007MA4RKU/ref=ox_sc_act_title_1?smid=A1A856T6BHL77U&psc=1)     	|
-| AD 623 Instrumentation Amplifier 	| HMC Stockroom 	| 2                     	| 0         	| n/a      	|
-| TL072 Op Amp                     	| HMC Stockroom 	| 4                     	| 0         	| n/a      	|
-| Resistors, assorted              	| HMC Stockroom 	| 6x150k, 2x11k, 12x10k 	| 0         	| n/a      	|
-| 1N4148 Diode                     	| HMC Stockroom 	| 4                     	| 0         	| n/a      	|
-| Adafruit LED Matrix 32x16        	| Digikey       	| 1                     	| 24.95     	| [link](https://www.adafruit.com/product/420 )     	|
+| **Part**                         	| **Part Number**   | **Vendor**    	| **Quantity**          	| **Price** 	| **Link** 	|
+|----------------------------------	|------------------ |---------------	|-----------------------	|-----------	|----------	|
+| EMG Cables                       	| CAB-12970         | Digikey       	| 2                     	| 11.38     	| [link](https://www.digikey.com/en/products/detail/sparkfun-electronics/CAB-12970/6833933)     	|
+| EMG Pads, 20 pack                	| B007MA4RKU        | Amazon        	| 1                     	| 8          	| [link](https://www.amazon.com/gp/product/B007MA4RKU/ref=ox_sc_act_title_1?smid=A1A856T6BHL77U&psc=1)     	|
+| AD 623 Instrumentation Amplifier 	| AD623             | HMC Stockroom 	| 2                     	| 0         	| n/a      	|
+| TL072 Op Amp                     	| TL072             | HMC Stockroom 	| 4                     	| 0         	| n/a      	|
+| Resistors, assorted              	| n/a               | HMC Stockroom 	| 6x150k, 2x11k, 12x10k 	| 0         	| n/a      	|
+| 1N4148 Diode                     	| 1N4148            | HMC Stockroom 	| 4                     	| 0         	| n/a      	|
+| Medium 16x32 RGB LED matrix panel - 6mm Pitch | 420               | Adafruit       	| 1                     	| 24.95     	| [link](https://www.adafruit.com/product/420 )     	|
 |                                  	|               	|                       	|           	|          	|
 
 
