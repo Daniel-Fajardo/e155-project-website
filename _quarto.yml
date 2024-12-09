@@ -7,16 +7,12 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - href: midpoint.qmd
-        text: Midpoint Status
       - href: design.qmd
         text: Design
       - href: documentation.qmd
         text: Documentation
       - href: resources.qmd
         text: Resources
-      - href: checkoff.qmd
-        text: Checkoff
       - href: about.qmd
         text: About Us
       
