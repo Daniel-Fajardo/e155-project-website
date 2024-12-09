@@ -1,31 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://Daniel-Fajardo.github.io/e155-project-website/resources.html</loc>
-    <lastmod>2024-12-05T07:04:22.697Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Daniel-Fajardo.github.io/e155-project-website/index.html</loc>
-    <lastmod>2024-12-05T08:31:05.032Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Daniel-Fajardo.github.io/e155-project-website/design.html</loc>
-    <lastmod>2024-12-05T08:22:12.616Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Daniel-Fajardo.github.io/e155-project-website/about.html</loc>
-    <lastmod>2024-12-05T18:45:34.921Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Daniel-Fajardo.github.io/e155-project-website/checkoff.html</loc>
-    <lastmod>2024-12-05T18:41:41.061Z</lastmod>
-  </url>
-  <url>
-    <loc>https://Daniel-Fajardo.github.io/e155-project-website/documentation.html</loc>
-    <lastmod>2024-12-05T18:15:56.590Z</lastmod>
+    <loc>https://Daniel-Fajardo.github.io/e155-project-website/results.html</loc>
+    <lastmod>2024-12-09T00:46:35.575Z</lastmod>
   </url>
   <url>
     <loc>https://Daniel-Fajardo.github.io/e155-project-website/midpoint.html</loc>
     <lastmod>2024-11-19T23:24:16.500Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Daniel-Fajardo.github.io/e155-project-website/documentation.html</loc>
+    <lastmod>2024-12-09T00:40:58.933Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Daniel-Fajardo.github.io/e155-project-website/checkoff.html</loc>
+    <lastmod>2024-12-05T19:42:36.038Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Daniel-Fajardo.github.io/e155-project-website/about.html</loc>
+    <lastmod>2024-12-09T00:19:30.700Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Daniel-Fajardo.github.io/e155-project-website/design.html</loc>
+    <lastmod>2024-12-09T00:46:35.581Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Daniel-Fajardo.github.io/e155-project-website/index.html</loc>
+    <lastmod>2024-12-08T23:51:42.997Z</lastmod>
+  </url>
+  <url>
+    <loc>https://Daniel-Fajardo.github.io/e155-project-website/resources.html</loc>
+    <lastmod>2024-12-05T07:04:22.697Z</lastmod>
   </url>
 </urlset>

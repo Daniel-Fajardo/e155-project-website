@@ -93,10 +93,6 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./midpoint.html"> 
-<span class="menu-text">Midpoint Status</span></a>
-  </li>  
-  <li class="nav-item">
     <a class="nav-link" href="./design.html"> 
 <span class="menu-text">Design</span></a>
   </li>  
@@ -105,12 +101,12 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Documentation</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./resources.html"> 
-<span class="menu-text">Resources</span></a>
+    <a class="nav-link" href="./results.html"> 
+<span class="menu-text">Results</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./checkoff.html" aria-current="page"> 
-<span class="menu-text">Checkoff</span></a>
+    <a class="nav-link" href="./resources.html"> 
+<span class="menu-text">Resources</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./about.html"> 
@@ -163,7 +159,7 @@ ul.task-list li input[type="checkbox"] {
 <ul class="task-list">
 <li><label><input type="checkbox">Uses a custom EMG sensor</label></li>
 </ul>
-<p>We built an analog circuit that amplifies the small electrical signals from a muscle into a range readable by the ADC.</p>
+<p>We built an analog circuit that amplifies the small electrical signals from a muscle into a range readable by the ADC. The circuit has three stages. First, it has an instrumentation amplifier that takes in the differential signal from the electrodes and turns it into a single-sided signal. Next, the single-sided signal is amplified by a sequence of inverting amplifiers. Finally, the signal is rectified into something suitable for the ADC.</p>
 <div id="fig-sen-flex" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sen-flex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -177,11 +173,11 @@ Figure&nbsp;1: A representative flexing signal. The test subject flexed three ti
 <ul class="task-list">
 <li><label><input type="checkbox">Device driver for ADC peripheral written</label></li>
 </ul>
-<p>We used a new peripheral for the STM32L432KC microcontroller, the Analog-to-Digital Converter or ADC. We wrote a new library for this sensor that provides initialization and read functions.</p>
+<p>We used a new peripheral for the STM32L432KC microcontroller, the Analog-to-Digital Converter or ADC. We wrote a new library for this sensor that provides initialization and read functions. The ADC gets the system clock with a prescaler of 8 so that it runs at 10 MHz. This</p>
 <ul class="task-list">
 <li><label><input type="checkbox">SPI interface between MCU and FPGA</label></li>
 </ul>
-<p>We reused a previous peripheral, the Serial Peripheral Interface (SPI), to communicate information from the MCU to the FPGA. On the MCU side, the library function <code>sendPlayerData</code> sends 4 characters (upper and lower halves of each of the 12-bit voltages) and asserts a load signal. On the FPGA side, <code>receive_only_SPI</code> reads in the voltages based on a load signal and stores them when load is not asserted.</p>
+<p>We reused a previous peripheral, the Serial Peripheral Interface (SPI), to communicate information from the MCU to the FPGA. On the MCU side, the SPI library function <code>sendPlayerData</code> sends 4 characters (upper and lower halves of each of the 12-bit voltages) and asserts a load signal. On the FPGA side, <code>receive_only_SPI</code> reads in the voltages based on the load signal and holds them when load is not asserted.</p>
 <div id="fig-mcu-4-char-spi" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-mcu-4-char-spi-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -200,13 +196,51 @@ D0 - CS, D1 - MOSI, D2 - MISO, D3 - SCK, D4 - LOAD
 <ul class="task-list">
 <li><label><input type="checkbox">Single player and multiplayer modes</label></li>
 </ul>
-<p>Single player mode can be switched to show either player’s data as a bar chart. Multiplayer mode shows two competing bars, red and blue, to indicate the game progress. In single player mode, a decoder converts the data into chunks. In multiplayer mode, a decoder compares the two voltages and outputs the state of the game. We mux between their outputs (which are really states, but that we call screens) based on a mode switch.</p>
-<p>TODO images of each screen</p>
+<p>Single player mode (<a href="#fig-single-player" class="quarto-xref">Figure&nbsp;3</a>) can be switched to show either player’s data as a bar chart. Multiplayer mode (<a href="#fig-multiplayer" class="quarto-xref">Figure&nbsp;4</a>) shows two competing bars, red and blue, to indicate the game progress. In single player mode , a decoder converts the data into chunks. In multiplayer mode, a decoder compares the two voltages and outputs the state of the game. We mux between their outputs (which are really states, but that we call screens) based on a mode switch.</p>
+<div id="fig-single-player" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-single-player-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/single_player_bar.jpg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-single-player-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Single player
+</figcaption>
+</figure>
+</div>
+<div id="fig-multiplayer" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-multiplayer-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/multiplayer_evenly_matched.jpg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-multiplayer-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Multiplayer game
+</figcaption>
+</figure>
+</div>
 <ul class="task-list">
 <li><label><input type="checkbox">Game effects, e.g.&nbsp;loading screen and victory screens</label></li>
 </ul>
 <p>There are additional states that don’t display player data. They read in static .txt files to display more complex shapes, such as words. The victory screen also flashes to grab attention.</p>
-<p>TODO images of game effect screens</p>
+<div id="fig-go" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-go-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/go.jpg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-go-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Starting sequence, culminating with a GO!
+</figcaption>
+</figure>
+</div>
+<div id="fig-win" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-win-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/p1_wins.jpg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-win-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Victory for Player 1
+</figcaption>
+</figure>
+</div>
 
 
 </section>

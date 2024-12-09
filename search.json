@@ -1,110 +1,5 @@
 [
   {
-    "objectID": "resources.html",
-    "href": "resources.html",
-    "title": "Resources",
-    "section": "",
-    "text": "The following links were helpful to us in our build process:\n\nInstructable for EMG Sensor This link explains how to build an earlier version of a sensor that we wanted to buy but was out of budget to this class. We got rid of the last few stages and swapped in the AD623 but mostly used this design.\nAD623 Datasheet\nLED Matrix Datasheet"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Hands-Free Arm Wrestling",
-    "section": "",
-    "text": "Ever wanted to arm wrestle, but without actually having to arm wrestle? Look no further!"
-  },
-  {
-    "objectID": "index.html#specifications",
-    "href": "index.html#specifications",
-    "title": "Hands-Free Arm Wrestling",
-    "section": "Specifications",
-    "text": "Specifications\n\nUses a custom EMG sensor\nDevice driver for ADC peripheral written\nSPI interface between MCU and FPGA\nDrives LED matrix\nSingle player and multiplayer modes\nGame effects, e.g. loading screen and victory screens"
-  },
-  {
-    "objectID": "index.html#video",
-    "href": "index.html#video",
-    "title": "Hands-Free Arm Wrestling",
-    "section": "Video",
-    "text": "Video"
-  },
-  {
-    "objectID": "design.html",
-    "href": "design.html",
-    "title": "Design",
-    "section": "",
-    "text": "Figure 1: Block diagram of the final system\n\n\n\n\n\n\n\n\n\nFigure 2: The full system schematic"
-  },
-  {
-    "objectID": "design.html#overview",
-    "href": "design.html#overview",
-    "title": "Design",
-    "section": "",
-    "text": "Figure 1: Block diagram of the final system\n\n\n\n\n\n\n\n\n\nFigure 2: The full system schematic"
-  },
-  {
-    "objectID": "design.html#sensor",
-    "href": "design.html#sensor",
-    "title": "Design",
-    "section": "Sensor",
-    "text": "Sensor\nWe took inspiration from, but did not fully use, a commercial MYG sensor that was out of our budget. This was good for the budget but bad for our time management as we ran into several issues.\nFirst, when we substitued a different instrumentation amp (the AD623) because we did not have the original schmatic part in the stockroom, we saw a large DC offset. This came from the large resistor we had between reference and ground, which was incorrect and made reference float. We fixed it by connecting reference directly to ground. Also, the decoupling capacitor that was meant to remove the DC offset removed the whole signal, so we removed the capacitor. We kept the high pass filter because it was already built into the circuit, and the full wave rectifier because we need it to protect the pins of the MCU. We discarded the rest of the circuit after the rectification because we needed to prioritze the rest of the digital design, not the analog sensor circuits. In total, we kept the instrumentation amplifier stage (with AD623), the inverting amplifier stage, and the full wave rectification stage."
-  },
-  {
-    "objectID": "design.html#mcu",
-    "href": "design.html#mcu",
-    "title": "Design",
-    "section": "MCU",
-    "text": "MCU\n\nDesign\n\n\n\n\n\n\nFigure 3: Graphic showing how the signals flow in the MCU\n\n\n\nThe ADC was our new peripheral for the project, and its device driver is complete and functional. After initializing, ADC1 reads in channels 10 and 11 from pins PA5 and PA6. These will be players 1 and 2 respectively. Each time that the data register is read, the 16 bit data register is stored in a volatile uint_16t. The 16 bits are converted into two characters (8 bits) each, which are stored in an array via a pointer.\nThe other peripheral in use is the SPI peripheral. A pointer to the char array that the ADC populates is passed into a modified version of the lab 7 SPI code. It sends the 4 chars to the FPGA in the order MSB1, LSB1, MSB2, LSB2.\n\n\n\nTesting\n\n\n\n\n\n\nFigure 4: SPI from the MCU to the FPGA.\nD0 - CS, D1 - MOSI, D2 - MISO, D3 - SCK, D4 - LOAD\n\n\n\nAs seen in Figure 4, the ADC reads in the values and then the SPI peripheral sends them out. In addition to the regular SPI signals, there is also a load signal that we will use later to tell the FPGA when to shift in new data."
-  },
-  {
-    "objectID": "design.html#fpga",
-    "href": "design.html#fpga",
-    "title": "Design",
-    "section": "FPGA",
-    "text": "FPGA\n\nDesign\n\n\n\n\n\n\nFigure 5: Block diagram of the FPGA and LED matrix\n\n\n\nWe have designed and started implementation of the FPGA, but it is not yet functional. The design for our first demo_top module is shown in Figure 5. The module that shifts in the SPI data was modified from aes_spi from Lab 7. However, we don’t need to send anything back to the MCU, so SDO will shift out nonsense. Because we intended to only use 12 bits of the received data because our resolution is only 12 bits, all our ports were sized for 12 bits, not 16. This is easily corrected in the top module. The single module has an FSM to determine which screen to show based on who is currently winning and who has been winning most recently. The current setup uses a demo_display module takes that screen and converts it into a simple led bar to show a coarse resolution. This is a temporary setup that will be replaced soon with the full LED matrix module."
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About Us",
-    "section": "",
-    "text": "Ellie is a senior engineering major. She is in MicroPs because she has an interest in embedded systems as they apply to robotics. After graduation, she plans to work as an electrical engineer in the aerospace/space exploration sector.\nDaniel is a senior engineering major. He needs to write his section still lol"
-  },
-  {
-    "objectID": "checkoff.html",
-    "href": "checkoff.html",
-    "title": "Checkoff",
-    "section": "",
-    "text": "Uses a custom EMG sensor\n\nWe built an analog circuit that amplifies the small electrical signals from a muscle into a range readable by the ADC.\n\n\n\n\n\n\nFigure 1: A representative flexing signal. The test subject flexed three times.\n\n\n\n\nDevice driver for ADC peripheral written\n\nWe used a new peripheral for the STM32L432KC microcontroller, the Analog-to-Digital Converter or ADC. We wrote a new library for this sensor that provides initialization and read functions.\n\nSPI interface between MCU and FPGA\n\nWe reused a previous peripheral, the Serial Peripheral Interface (SPI), to communicate information from the MCU to the FPGA. On the MCU side, the library function sendPlayerData sends 4 characters (upper and lower halves of each of the 12-bit voltages) and asserts a load signal. On the FPGA side, receive_only_SPI reads in the voltages based on a load signal and stores them when load is not asserted.\n\n\n\n\n\n\nFigure 2: SPI from the MCU to the FPGA.\nD0 - CS, D1 - MOSI, D2 - MISO, D3 - SCK, D4 - LOAD\n\n\n\n\nDrives LED matrix\n\nWe use a counter to loop through all 8 pairs of rows (given by abcstate). From 0 to 31, we load in rgb data. From 32 to 24, lat is asserted. From 34 to 36, output enable is asserted to turn off the screen as we move to the next row.At 36, counter resets and abcstate increments.\n\nSingle player and multiplayer modes\n\nSingle player mode can be switched to show either player’s data as a bar chart. Multiplayer mode shows two competing bars, red and blue, to indicate the game progress. In single player mode, a decoder converts the data into chunks. In multiplayer mode, a decoder compares the two voltages and outputs the state of the game. We mux between their outputs (which are really states, but that we call screens) based on a mode switch.\nTODO images of each screen\n\nGame effects, e.g. loading screen and victory screens\n\nThere are additional states that don’t display player data. They read in static .txt files to display more complex shapes, such as words. The victory screen also flashes to grab attention.\nTODO images of game effect screens"
-  },
-  {
-    "objectID": "checkoff.html#specs",
-    "href": "checkoff.html#specs",
-    "title": "Checkoff",
-    "section": "",
-    "text": "Uses a custom EMG sensor\n\nWe built an analog circuit that amplifies the small electrical signals from a muscle into a range readable by the ADC.\n\n\n\n\n\n\nFigure 1: A representative flexing signal. The test subject flexed three times.\n\n\n\n\nDevice driver for ADC peripheral written\n\nWe used a new peripheral for the STM32L432KC microcontroller, the Analog-to-Digital Converter or ADC. We wrote a new library for this sensor that provides initialization and read functions.\n\nSPI interface between MCU and FPGA\n\nWe reused a previous peripheral, the Serial Peripheral Interface (SPI), to communicate information from the MCU to the FPGA. On the MCU side, the library function sendPlayerData sends 4 characters (upper and lower halves of each of the 12-bit voltages) and asserts a load signal. On the FPGA side, receive_only_SPI reads in the voltages based on a load signal and stores them when load is not asserted.\n\n\n\n\n\n\nFigure 2: SPI from the MCU to the FPGA.\nD0 - CS, D1 - MOSI, D2 - MISO, D3 - SCK, D4 - LOAD\n\n\n\n\nDrives LED matrix\n\nWe use a counter to loop through all 8 pairs of rows (given by abcstate). From 0 to 31, we load in rgb data. From 32 to 24, lat is asserted. From 34 to 36, output enable is asserted to turn off the screen as we move to the next row.At 36, counter resets and abcstate increments.\n\nSingle player and multiplayer modes\n\nSingle player mode can be switched to show either player’s data as a bar chart. Multiplayer mode shows two competing bars, red and blue, to indicate the game progress. In single player mode, a decoder converts the data into chunks. In multiplayer mode, a decoder compares the two voltages and outputs the state of the game. We mux between their outputs (which are really states, but that we call screens) based on a mode switch.\nTODO images of each screen\n\nGame effects, e.g. loading screen and victory screens\n\nThere are additional states that don’t display player data. They read in static .txt files to display more complex shapes, such as words. The victory screen also flashes to grab attention.\nTODO images of game effect screens"
-  },
-  {
-    "objectID": "documentation.html",
-    "href": "documentation.html",
-    "title": "Documentation",
-    "section": "",
-    "text": "To build this game, use the files on our project Github."
-  },
-  {
-    "objectID": "documentation.html#bill-of-materials",
-    "href": "documentation.html#bill-of-materials",
-    "title": "Documentation",
-    "section": "Bill of Materials",
-    "text": "Bill of Materials\n\n\n\nPart\nVendor\nQuantity\nPrice\nLink\n\n\n\n\nEMG Cables\nDigikey\n2\n11.38\nlink\n\n\nEMG Pads, 20 pack\nAmazon\n1\n8\nlink\n\n\nAD 623 Instrumentation Amplifier\nHMC Stockroom\n2\n0\nn/a\n\n\nTL072 Op Amp\nHMC Stockroom\n4\n0\nn/a\n\n\nResistors, assorted\nHMC Stockroom\n6x150k, 2x11k, 12x10k\n0\nn/a\n\n\n1N4148 Diode\nHMC Stockroom\n4\n0\nn/a\n\n\nAdafruit LED Matrix 32x16\nDigikey\n1\n24.95\nlink"
-  },
-  {
-    "objectID": "documentation.html#build-photos",
-    "href": "documentation.html#build-photos",
-    "title": "Documentation",
-    "section": "Build Photos",
-    "text": "Build Photos\n\n\n\n\n\n\nFigure 1: 3D printed enclosure\n\n\n\n\n\n\n\n\n\nFigure 2: EMG sensors\n\n\n\n\n\n\n\n\n\nFigure 3: FPGA to LED matrix\n\n\n\n\n\n\n\n\n\nFigure 4: Packing things into the box"
-  },
-  {
     "objectID": "midpoint.html",
     "href": "midpoint.html",
     "title": "Midpoint Status Memo",
@@ -145,5 +40,110 @@
     "title": "Midpoint Status Memo",
     "section": "Appendix",
     "text": "Appendix\nAll our MCU and FPGA code for this project can be found on our Github repo."
+  },
+  {
+    "objectID": "documentation.html",
+    "href": "documentation.html",
+    "title": "Documentation",
+    "section": "",
+    "text": "To build this game, use the files on our project Github."
+  },
+  {
+    "objectID": "documentation.html#bill-of-materials",
+    "href": "documentation.html#bill-of-materials",
+    "title": "Documentation",
+    "section": "Bill of Materials",
+    "text": "Bill of Materials\n\n\n\nPart\nVendor\nQuantity\nPrice\nLink\n\n\n\n\nEMG Cables\nDigikey\n2\n11.38\nlink\n\n\nEMG Pads, 20 pack\nAmazon\n1\n8\nlink\n\n\nAD 623 Instrumentation Amplifier\nHMC Stockroom\n2\n0\nn/a\n\n\nTL072 Op Amp\nHMC Stockroom\n4\n0\nn/a\n\n\nResistors, assorted\nHMC Stockroom\n6x150k, 2x11k, 12x10k\n0\nn/a\n\n\n1N4148 Diode\nHMC Stockroom\n4\n0\nn/a\n\n\nAdafruit LED Matrix 32x16\nDigikey\n1\n24.95\nlink"
+  },
+  {
+    "objectID": "documentation.html#build-photos",
+    "href": "documentation.html#build-photos",
+    "title": "Documentation",
+    "section": "Build Photos",
+    "text": "Build Photos\n\n\n\n\n\n\nFigure 1: 3D printed enclosure\n\n\n\n\n\n\n\n\n\nFigure 2: EMG sensors\n\n\n\n\n\n\n\n\n\nFigure 3: FPGA to LED matrix\n\n\n\n\n\n\n\n\n\nFigure 4: Packing things into the box"
+  },
+  {
+    "objectID": "checkoff.html",
+    "href": "checkoff.html",
+    "title": "Checkoff",
+    "section": "",
+    "text": "Uses a custom EMG sensor\n\nWe built an analog circuit that amplifies the small electrical signals from a muscle into a range readable by the ADC. The circuit has three stages. First, it has an instrumentation amplifier that takes in the differential signal from the electrodes and turns it into a single-sided signal. Next, the single-sided signal is amplified by a sequence of inverting amplifiers. Finally, the signal is rectified into something suitable for the ADC.\n\n\n\n\n\n\nFigure 1: A representative flexing signal. The test subject flexed three times.\n\n\n\n\nDevice driver for ADC peripheral written\n\nWe used a new peripheral for the STM32L432KC microcontroller, the Analog-to-Digital Converter or ADC. We wrote a new library for this sensor that provides initialization and read functions. The ADC gets the system clock with a prescaler of 8 so that it runs at 10 MHz. This\n\nSPI interface between MCU and FPGA\n\nWe reused a previous peripheral, the Serial Peripheral Interface (SPI), to communicate information from the MCU to the FPGA. On the MCU side, the SPI library function sendPlayerData sends 4 characters (upper and lower halves of each of the 12-bit voltages) and asserts a load signal. On the FPGA side, receive_only_SPI reads in the voltages based on the load signal and holds them when load is not asserted.\n\n\n\n\n\n\nFigure 2: SPI from the MCU to the FPGA.\nD0 - CS, D1 - MOSI, D2 - MISO, D3 - SCK, D4 - LOAD\n\n\n\n\nDrives LED matrix\n\nWe use a counter to loop through all 8 pairs of rows (given by abcstate). From 0 to 31, we load in rgb data. From 32 to 24, lat is asserted. From 34 to 36, output enable is asserted to turn off the screen as we move to the next row.At 36, counter resets and abcstate increments.\n\nSingle player and multiplayer modes\n\nSingle player mode (Figure 3) can be switched to show either player’s data as a bar chart. Multiplayer mode (Figure 4) shows two competing bars, red and blue, to indicate the game progress. In single player mode , a decoder converts the data into chunks. In multiplayer mode, a decoder compares the two voltages and outputs the state of the game. We mux between their outputs (which are really states, but that we call screens) based on a mode switch.\n\n\n\n\n\n\nFigure 3: Single player\n\n\n\n\n\n\n\n\n\nFigure 4: Multiplayer game\n\n\n\n\nGame effects, e.g. loading screen and victory screens\n\nThere are additional states that don’t display player data. They read in static .txt files to display more complex shapes, such as words. The victory screen also flashes to grab attention.\n\n\n\n\n\n\nFigure 5: Starting sequence, culminating with a GO!\n\n\n\n\n\n\n\n\n\nFigure 6: Victory for Player 1"
+  },
+  {
+    "objectID": "checkoff.html#specs",
+    "href": "checkoff.html#specs",
+    "title": "Checkoff",
+    "section": "",
+    "text": "Uses a custom EMG sensor\n\nWe built an analog circuit that amplifies the small electrical signals from a muscle into a range readable by the ADC. The circuit has three stages. First, it has an instrumentation amplifier that takes in the differential signal from the electrodes and turns it into a single-sided signal. Next, the single-sided signal is amplified by a sequence of inverting amplifiers. Finally, the signal is rectified into something suitable for the ADC.\n\n\n\n\n\n\nFigure 1: A representative flexing signal. The test subject flexed three times.\n\n\n\n\nDevice driver for ADC peripheral written\n\nWe used a new peripheral for the STM32L432KC microcontroller, the Analog-to-Digital Converter or ADC. We wrote a new library for this sensor that provides initialization and read functions. The ADC gets the system clock with a prescaler of 8 so that it runs at 10 MHz. This\n\nSPI interface between MCU and FPGA\n\nWe reused a previous peripheral, the Serial Peripheral Interface (SPI), to communicate information from the MCU to the FPGA. On the MCU side, the SPI library function sendPlayerData sends 4 characters (upper and lower halves of each of the 12-bit voltages) and asserts a load signal. On the FPGA side, receive_only_SPI reads in the voltages based on the load signal and holds them when load is not asserted.\n\n\n\n\n\n\nFigure 2: SPI from the MCU to the FPGA.\nD0 - CS, D1 - MOSI, D2 - MISO, D3 - SCK, D4 - LOAD\n\n\n\n\nDrives LED matrix\n\nWe use a counter to loop through all 8 pairs of rows (given by abcstate). From 0 to 31, we load in rgb data. From 32 to 24, lat is asserted. From 34 to 36, output enable is asserted to turn off the screen as we move to the next row.At 36, counter resets and abcstate increments.\n\nSingle player and multiplayer modes\n\nSingle player mode (Figure 3) can be switched to show either player’s data as a bar chart. Multiplayer mode (Figure 4) shows two competing bars, red and blue, to indicate the game progress. In single player mode , a decoder converts the data into chunks. In multiplayer mode, a decoder compares the two voltages and outputs the state of the game. We mux between their outputs (which are really states, but that we call screens) based on a mode switch.\n\n\n\n\n\n\nFigure 3: Single player\n\n\n\n\n\n\n\n\n\nFigure 4: Multiplayer game\n\n\n\n\nGame effects, e.g. loading screen and victory screens\n\nThere are additional states that don’t display player data. They read in static .txt files to display more complex shapes, such as words. The victory screen also flashes to grab attention.\n\n\n\n\n\n\nFigure 5: Starting sequence, culminating with a GO!\n\n\n\n\n\n\n\n\n\nFigure 6: Victory for Player 1"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About Us",
+    "section": "",
+    "text": "Ellie is a senior engineering major. She is in MicroPs because she has an interest in embedded systems as they apply to robotics. After graduation, she plans to work as an electrical engineer in the aerospace/space exploration sector.\nabout: template: jolla links: - icon: linkedin text: LinkedIn href: www.linkedin.com/in/ellie-sundheim - icon: github text: Github href: https://github.com/ellieSundheim\nDaniel is a senior engineering major. He needs to write his section still lol"
+  },
+  {
+    "objectID": "design.html",
+    "href": "design.html",
+    "title": "Design",
+    "section": "",
+    "text": "Figure 1: Block diagram of the final system\n\n\n\nFigure 1 shows the overall system block diagram. The system begins with two amplified signals from the muscle sensors, which is input into the MCU as two analog signals. The MCU then converts the signals into a concatenated 32-bit digital signals and sends the data across SPI to the FPGA. The FPGA reads the SPI signal and contains modules to determine both players’ data and displays them on the LED display through an fsm module that converts a desired screen display into the correct output pins for interfacing with the display matrix. The display matrix interprets the output signals sequentially at a frequency of 1.5MHz to display the screen.\n\n\n\n\n\n\nFigure 2: The full system schematic"
+  },
+  {
+    "objectID": "design.html#overview",
+    "href": "design.html#overview",
+    "title": "Design",
+    "section": "",
+    "text": "Figure 1: Block diagram of the final system\n\n\n\nFigure 1 shows the overall system block diagram. The system begins with two amplified signals from the muscle sensors, which is input into the MCU as two analog signals. The MCU then converts the signals into a concatenated 32-bit digital signals and sends the data across SPI to the FPGA. The FPGA reads the SPI signal and contains modules to determine both players’ data and displays them on the LED display through an fsm module that converts a desired screen display into the correct output pins for interfacing with the display matrix. The display matrix interprets the output signals sequentially at a frequency of 1.5MHz to display the screen.\n\n\n\n\n\n\nFigure 2: The full system schematic"
+  },
+  {
+    "objectID": "design.html#sensor",
+    "href": "design.html#sensor",
+    "title": "Design",
+    "section": "Sensor",
+    "text": "Sensor\nAn EMG sensor detects electrical activity in muscles via a conductive pad on the skin. Electrical signals on the skin are typically between 50μV to 30mV, depending on the quality of the electrode pads and the individual. An EMG sensor amplifies this signal with a gain between ~33x to 100000x and outputs an analog signal.\nWe took inspiration from, but did not fully use, a commercial MYG sensor that was out of our budget. We substituted a different instrumentation amp (AD623) because we did not have the original schematic part in the stockroom. We also removed the decoupling capacitor that was meant to remove the DC offset becasue it removed the whole signal. We kept the high pass filter because it was already built into the circuit, and the full wave rectifier because we need it to protect the pins of the MCU. We discarded the rest of the circuit after the rectification."
+  },
+  {
+    "objectID": "design.html#mcu",
+    "href": "design.html#mcu",
+    "title": "Design",
+    "section": "MCU",
+    "text": "MCU\n\n\n\n\n\n\nFigure 3: Graphic showing how the signals flow in the MCU\n\n\n\nThe Analog-to-Digital Converter (ADC) was our new peripheral for the project. After initializing, ADC1 reads in channels 10 and 11 from pins PA5 and PA6, which are players 1 and 2 respectively. Each time that the data register is read, the 16 bit data register is stored in a volatile uint_16t. Because resolution is set to 12 bits (the max), the 16 bit data register has 4 extra zeros at the top. It is easy to get rid of them inside the FPGA, and 16 bits divides nicely into 2 characters of 8 bits each, which is the size of a SPI transaction. The characters are stored in an array via a pointer.\nThe other peripheral in use is the SPI peripheral. A pointer to the char array that the ADC populates is passed into a modified version of the lab 7 SPI code. It sends the 4 chars to the FPGA in the order MSB1, LSB1, MSB2, LSB2.\n\n\n\n\n\n\n\nFigure 4: SPI from the MCU to the FPGA.\nD0 - CS, D1 - MOSI, D2 - MISO, D3 - SCK, D4 - LOAD\n\n\n\nAs seen in Figure 4, the ADC reads in the values and then the SPI peripheral sends them out. In addition to the regular SPI signals, there is also a load signal that we use to tell the FPGA when to shift in new data."
+  },
+  {
+    "objectID": "design.html#fpga",
+    "href": "design.html#fpga",
+    "title": "Design",
+    "section": "FPGA",
+    "text": "FPGA\n\n\n\n\n\n\nFigure 5: Block diagram of the FPGA and LED matrix\n\n\n\nWe have designed and started implementation of the FPGA, but it is not yet functional. The design for our first demo_top module is shown in Figure 5. The module that shifts in the SPI data was modified from aes_spi from Lab 7. However, we don’t need to send anything back to the MCU, so SDO will shift out nonsense. Because we intended to only use 12 bits of the received data because our resolution is only 12 bits, all our ports were sized for 12 bits, not 16. This is easily corrected in the top module. The single module has an FSM to determine which screen to show based on who is currently winning and who has been winning most recently. The current setup uses a demo_display module takes that screen and converts it into a simple led bar to show a coarse resolution. This is a temporary setup that will be replaced soon with the full LED matrix module. \nThe FPGA design contains a SPI recieve moduls, two modules for selecting the screen (in single player or multiplayer mode), two modules which interface the selected screen into output pins for the LED matrix, and a multiplex which selects the set of output pins based on the player mode. The single and multiplayer processes are very similar. The single module is an asyncrhonous module, which outputs a 6-bit screen value depending on the input of 1 players’ digital signal magnitude. The multi module is a synchronous module, which also outputs a screen value, but is determined by which players’ digital signal magnitude is greater. The multi module also has a couple preset screen matrices for winning screens and a start sequence, saved as .txt files.\n\n\n\n\n\n\nFigure 6: Testbench of single module\n\n\n\nFigure 6 testbench outputs the desired screen\n\n\n\n\n\n\nFigure 7: Testbench of singledisplay module: view of one row\n\n\n\nFigure 7 testbench shows singledisplay zoomed in to show counter cycling through\n\n\n\n\n\n\nFigure 8: Testbench of singledisplay module: view of one screen\n\n\n\nFigure 8 testbench shows singledisplay zoomed in to show abc cycling through for a whole screen\n\n\n\n\n\n\nFigure 9: Testbench of multi module\n\n\n\nFigure 9 testbench outputs the desired screen\n\n\n\n\n\n\n\nFigure 10: Testbench of multidisplay module: view of one row\n\n\n\nFigure 10 testbench shows multidisplay zoomed in to show counter cycling through\n\n\n\n\n\n\n\nFigure 11: Testbench of multidisplay module: view of one screen\n\n\n\nFigure 11 testbench shows multidisplay zoomed in to show abc cycling through for a whole screen\n\n\nDiscussion\nAfter the SPI module, single and multiplayer processes are run in parallel and then multiplexed before the system output, however this multiplex could also be done earlier to reduce processing power.\nline 1\nline 2"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Hands-Free Arm Wrestling",
+    "section": "",
+    "text": "Ever wanted to arm wrestle, but without actually having to arm wrestle? Look no further! Our project measures the electrical signals on your skin with an EMG sensor, and uses that to control a miniature arm wrestling game. When you (and a friend) flex, the electrical signals from your nerves that tell your muscles to contract get picked up by the sticky electrodes and sent into a circuit that amplifies them so that they are big enough to measure with the analog-to-digital converter on a STM32L432KC microcontroller. The microcontroller then sends the signals to the Upduino 3.1, a field-programmable gate array (FPGA). The FPGA controls the LED matrix that displays the game. It has two modes, single and multiplayer. Selecting single player displays the raw signal as a bar chart. Selecting multiplayer displays two competing bars, and updates the relative size of each depending on how hard you flex. Getting your color to cover the entire screen means victory!"
+  },
+  {
+    "objectID": "index.html#specifications",
+    "href": "index.html#specifications",
+    "title": "Hands-Free Arm Wrestling",
+    "section": "Specifications",
+    "text": "Specifications\n\nUses a custom EMG sensor\nDevice driver for ADC peripheral written\nSPI interface between MCU and FPGA\nDrives LED matrix\nSingle player and multiplayer modes\nGame effects, e.g. loading screen and victory screens"
+  },
+  {
+    "objectID": "index.html#video",
+    "href": "index.html#video",
+    "title": "Hands-Free Arm Wrestling",
+    "section": "Video",
+    "text": "Video"
+  },
+  {
+    "objectID": "resources.html",
+    "href": "resources.html",
+    "title": "Resources",
+    "section": "",
+    "text": "The following links were helpful to us in our build process:\n\nInstructable for EMG Sensor This link explains how to build an earlier version of a sensor that we wanted to buy but was out of budget to this class. We got rid of the last few stages and swapped in the AD623 but mostly used this design.\nAD623 Datasheet\nLED Matrix Datasheet"
   }
 ]
