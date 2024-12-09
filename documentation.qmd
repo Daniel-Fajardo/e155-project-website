@@ -4,6 +4,13 @@ title: "Documentation"
 
 To build this game, use the files on [our project Github](https://github.com/ellieSundheim/e155-project).
 
+
+### Midpoint Status Report
+The midpoint status report can be found [here](./midpoint.qmd).
+
+### Final Checkoff Sheet
+The checkoff sheet for our final demo to Prof Brake can be found [here](./checkoff.qmd)
+
 ## Bill of Materials
 
 | **Part**                         	| **Vendor**    	| **Quantity**          	| **Price** 	| **Link** 	|

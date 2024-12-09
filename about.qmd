@@ -4,4 +4,14 @@ title: About Us
 
 **Ellie** is a senior engineering major. She is in MicroPs because she has an interest in embedded systems as they apply to robotics. After graduation, she plans to work as an electrical engineer in the aerospace/space exploration sector.
 
+about:
+    template: jolla
+    links:
+        - icon: linkedin
+          text: LinkedIn
+          href: www.linkedin.com/in/ellie-sundheim
+        - icon: github
+          text: Github
+          href: https://github.com/ellieSundheim
+
 **Daniel** is a senior engineering major. He needs to write his section still lol
