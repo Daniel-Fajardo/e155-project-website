@@ -25,7 +25,6 @@ We took inspiration from, but did not fully use, a commercial MYG sensor that wa
 
 
 ## MCU
-### Design
 
 ::: {#fig-mcu-overall-flow}
 ![](images/MCU_flow.png)
@@ -36,7 +35,6 @@ Graphic showing how the signals flow in the MCU
 The Analog-to-Digital Converter (ADC) was our new peripheral for the project. After initializing, ADC1 reads in channels 10 and 11 from pins PA5 and PA6, which are players 1 and 2 respectively. Each time that the data register is read, the 16 bit data register is stored in a volatile uint_16t. Because resolution is set to 12 bits (the max), the 16 bit data register has 4 extra zeros at the top. It is easy to get rid of them inside the FPGA, and 16 bits divides nicely into 2 characters of 8 bits each, which is the size of a SPI transaction. The characters are stored in an array via a pointer. \
 The other peripheral in use is the SPI peripheral. A pointer to the char array that the ADC populates is passed into a modified version of the lab 7 SPI code. It sends the 4 chars to the FPGA in the order MSB1, LSB1, MSB2, LSB2.\
 
-### Testing
 ::: {#fig-mcu-4-char-spi}
 ![](images/4_char_spi.jpg)
 
@@ -46,7 +44,6 @@ D0 - CS, D1 - MOSI, D2 - MISO, D3 - SCK, D4 - LOAD
 As seen in @fig-mcu-4-char-spi, the ADC reads in the values and then the SPI peripheral sends them out. In addition to the regular SPI signals, there is also a `load` signal that we use to tell the FPGA when to shift in new data.\
 
 ## FPGA
-### Design
 
 ::: {#fig-fpga-bd}
 ![](images/FPGA%20Block%20Diagram%20Demo.jpg)
