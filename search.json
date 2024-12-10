@@ -1,5 +1,33 @@
 [
   {
+    "objectID": "results.html",
+    "href": "results.html",
+    "title": "Results",
+    "section": "",
+    "text": "Overall, our project was a success! We were able to meet our specs that we laid out in our proposal, and produced a system that let people arm wrestle with EMG sensors.\nThe system overall updates at a frequency of ~1 Hz. This is almost entirely due to the delay chosen in our main.c loop, as the time to read in the ADC channels (2 channels at 16 MHz taking 24.5 cycles each = 3 \\(\\mu\\) s), send the SPI signal (&gt; 10 \\(\\mu\\) s), and loop through the 512 pixels (36 counts at 1.5 MHz per pair times 8 pairs = 192 $$s) is negligable compared to the 1 full second delay. This amount of latency makes for good gameplay, as players can react to the progress shown before the game is won or lost.\nOur sensors were acting up on demo day, which was partly due to inoptimal quality of sensor pads and partly due to an amplifier design that didn’t have enough flexibility. We know it was the sensors and not the ADC because we checked our ADC setup with potentiometers and it worked perfectly."
+  },
+  {
+    "objectID": "results.html#summary",
+    "href": "results.html#summary",
+    "title": "Results",
+    "section": "",
+    "text": "Overall, our project was a success! We were able to meet our specs that we laid out in our proposal, and produced a system that let people arm wrestle with EMG sensors.\nThe system overall updates at a frequency of ~1 Hz. This is almost entirely due to the delay chosen in our main.c loop, as the time to read in the ADC channels (2 channels at 16 MHz taking 24.5 cycles each = 3 \\(\\mu\\) s), send the SPI signal (&gt; 10 \\(\\mu\\) s), and loop through the 512 pixels (36 counts at 1.5 MHz per pair times 8 pairs = 192 $$s) is negligable compared to the 1 full second delay. This amount of latency makes for good gameplay, as players can react to the progress shown before the game is won or lost.\nOur sensors were acting up on demo day, which was partly due to inoptimal quality of sensor pads and partly due to an amplifier design that didn’t have enough flexibility. We know it was the sensors and not the ADC because we checked our ADC setup with potentiometers and it worked perfectly."
+  },
+  {
+    "objectID": "results.html#gallery",
+    "href": "results.html#gallery",
+    "title": "Results",
+    "section": "Gallery",
+    "text": "Gallery\n Demonstration of FPGA and MCU properly displaying a controlled voltage input from two potentiometers, which are in place of the muscle sensors\n Multiplayer mode in full display, as two fellow MicroPs students (Ket and Jason) wrestle under disco lights"
+  },
+  {
+    "objectID": "results.html#future-work",
+    "href": "results.html#future-work",
+    "title": "Results",
+    "section": "Future Work",
+    "text": "Future Work\nIf we were to continue working on this project, it would be good to better characterize the EMG sensor outputs. We noticed as we were demoing the project that the amplification circuit worked well for Ellie, but not Daniel, presumably due to different resting skin voltages. Instead of a fixed 11k resistor on the instrumentation amp, we could have a 1k in series with a 10k potentiometer, letting us vary the gain from 10x-100x. Also, we could make a PCB for it so we have fewer connection issues (or, we could just buy the commercial version). For the MCU, it would have been cleaner to use interrupts for the ADC instead of a timer. Also, it would have been nice to test and use the offset calculation function we started working on (which could additionally be used to enable a cheating mode if we wanted to put a finger on the scale).\nThe design of the FPGA could be improved. After the SPI module, single and multiplayer processes are run in parallel and then multiplexed before the system output, however this multiplex could also be done earlier to reduce processing power. Another area of improvement is to write modules to individual select a single pixel and set it to a desired rgb value, which would allow for much more flexibility in the screens capability. For the purpose of our project, we did not need this funcionality."
+  },
+  {
     "objectID": "midpoint.html",
     "href": "midpoint.html",
     "title": "Midpoint Status Memo",
@@ -53,7 +81,7 @@
     "href": "documentation.html#bill-of-materials",
     "title": "Documentation",
     "section": "Bill of Materials",
-    "text": "Bill of Materials\n\n\n\nPart\nVendor\nQuantity\nPrice\nLink\n\n\n\n\nEMG Cables\nDigikey\n2\n11.38\nlink\n\n\nEMG Pads, 20 pack\nAmazon\n1\n8\nlink\n\n\nAD 623 Instrumentation Amplifier\nHMC Stockroom\n2\n0\nn/a\n\n\nTL072 Op Amp\nHMC Stockroom\n4\n0\nn/a\n\n\nResistors, assorted\nHMC Stockroom\n6x150k, 2x11k, 12x10k\n0\nn/a\n\n\n1N4148 Diode\nHMC Stockroom\n4\n0\nn/a\n\n\nAdafruit LED Matrix 32x16\nDigikey\n1\n24.95\nlink"
+    "text": "Bill of Materials\n\n\n\nPart\nPart Number\nVendor\nQuantity\nPrice\nLink\n\n\n\n\nEMG Cables\nCAB-12970\nDigikey\n2\n11.38\nlink\n\n\nEMG Pads, 20 pack\nB007MA4RKU\nAmazon\n1\n8\nlink\n\n\nAD 623 Instrumentation Amplifier\nAD623\nHMC Stockroom\n2\n0\nn/a\n\n\nTL072 Op Amp\nTL072\nHMC Stockroom\n4\n0\nn/a\n\n\nResistors, assorted\nn/a\nHMC Stockroom\n6x150k, 2x11k, 12x10k\n0\nn/a\n\n\n1N4148 Diode\n1N4148\nHMC Stockroom\n4\n0\nn/a\n\n\nMedium 16x32 RGB LED matrix panel - 6mm Pitch\n420\nAdafruit\n1\n24.95\nlink"
   },
   {
     "objectID": "documentation.html#build-photos",
@@ -81,21 +109,21 @@
     "href": "about.html",
     "title": "About Us",
     "section": "",
-    "text": "Ellie is a senior engineering major. She is in MicroPs because she has an interest in embedded systems as they apply to robotics. After graduation, she plans to work as an electrical engineer in the aerospace/space exploration sector.\nabout: template: jolla links: - icon: linkedin text: LinkedIn href: www.linkedin.com/in/ellie-sundheim - icon: github text: Github href: https://github.com/ellieSundheim\nDaniel is a senior engineering major. He needs to write his section still lol"
+    "text": "Ellie is a senior engineering major. She is in MicroPs because she has an interest in embedded systems as they apply to robotics. After graduation, she plans to work as an electrical engineer in the aerospace/space exploration sector.\nDaniel is a senior engineering major. He took MicroPs to explore the world of embedded systems because of his interest in its intersection between firmware and software. He plans to work as a signals engineer for HigherGround after graduation."
   },
   {
     "objectID": "design.html",
     "href": "design.html",
     "title": "Design",
     "section": "",
-    "text": "Figure 1: Block diagram of the final system\n\n\n\nFigure 1 shows the overall system block diagram. The system begins with two amplified signals from the muscle sensors, which is input into the MCU as two analog signals. The MCU then converts the signals into a concatenated 32-bit digital signals and sends the data across SPI to the FPGA. The FPGA reads the SPI signal and contains modules to determine both players’ data and displays them on the LED display through an fsm module that converts a desired screen display into the correct output pins for interfacing with the display matrix. The display matrix interprets the output signals sequentially at a frequency of 1.5MHz to display the screen.\n\n\n\n\n\n\nFigure 2: The full system schematic"
+    "text": "Figure 1: Block diagram of the final system\n\n\n\nFigure 1 shows the overall system block diagram. The system begins with two amplified signals from the muscle sensors, which is input into the MCU as two analog signals. The MCU then converts the signals into a concatenated 32-bit digital signals and sends the data across SPI to the FPGA. The FPGA reads the SPI signal and contains modules to determine both players’ data and displays them on the LED display through a FSM module that converts a desired screen display into the correct output pins for interfacing with the display matrix. The display matrix interprets the output signals sequentially at a frequency of 1.5MHz to display the screen.\n\n\n\n\n\n\nFigure 2: The full system schematic"
   },
   {
     "objectID": "design.html#overview",
     "href": "design.html#overview",
     "title": "Design",
     "section": "",
-    "text": "Figure 1: Block diagram of the final system\n\n\n\nFigure 1 shows the overall system block diagram. The system begins with two amplified signals from the muscle sensors, which is input into the MCU as two analog signals. The MCU then converts the signals into a concatenated 32-bit digital signals and sends the data across SPI to the FPGA. The FPGA reads the SPI signal and contains modules to determine both players’ data and displays them on the LED display through an fsm module that converts a desired screen display into the correct output pins for interfacing with the display matrix. The display matrix interprets the output signals sequentially at a frequency of 1.5MHz to display the screen.\n\n\n\n\n\n\nFigure 2: The full system schematic"
+    "text": "Figure 1: Block diagram of the final system\n\n\n\nFigure 1 shows the overall system block diagram. The system begins with two amplified signals from the muscle sensors, which is input into the MCU as two analog signals. The MCU then converts the signals into a concatenated 32-bit digital signals and sends the data across SPI to the FPGA. The FPGA reads the SPI signal and contains modules to determine both players’ data and displays them on the LED display through a FSM module that converts a desired screen display into the correct output pins for interfacing with the display matrix. The display matrix interprets the output signals sequentially at a frequency of 1.5MHz to display the screen.\n\n\n\n\n\n\nFigure 2: The full system schematic"
   },
   {
     "objectID": "design.html#sensor",
@@ -116,7 +144,14 @@
     "href": "design.html#fpga",
     "title": "Design",
     "section": "FPGA",
-    "text": "FPGA\n\n\n\n\n\n\nFigure 5: Block diagram of the FPGA and LED matrix\n\n\n\nWe have designed and started implementation of the FPGA, but it is not yet functional. The design for our first demo_top module is shown in Figure 5. The module that shifts in the SPI data was modified from aes_spi from Lab 7. However, we don’t need to send anything back to the MCU, so SDO will shift out nonsense. Because we intended to only use 12 bits of the received data because our resolution is only 12 bits, all our ports were sized for 12 bits, not 16. This is easily corrected in the top module. The single module has an FSM to determine which screen to show based on who is currently winning and who has been winning most recently. The current setup uses a demo_display module takes that screen and converts it into a simple led bar to show a coarse resolution. This is a temporary setup that will be replaced soon with the full LED matrix module. \nThe FPGA design contains a SPI recieve moduls, two modules for selecting the screen (in single player or multiplayer mode), two modules which interface the selected screen into output pins for the LED matrix, and a multiplex which selects the set of output pins based on the player mode. The single and multiplayer processes are very similar. The single module is an asyncrhonous module, which outputs a 6-bit screen value depending on the input of 1 players’ digital signal magnitude. The multi module is a synchronous module, which also outputs a screen value, but is determined by which players’ digital signal magnitude is greater. The multi module also has a couple preset screen matrices for winning screens and a start sequence, saved as .txt files.\n\n\n\n\n\n\nFigure 6: Testbench of single module\n\n\n\nFigure 6 testbench outputs the desired screen\n\n\n\n\n\n\nFigure 7: Testbench of singledisplay module: view of one row\n\n\n\nFigure 7 testbench shows singledisplay zoomed in to show counter cycling through\n\n\n\n\n\n\nFigure 8: Testbench of singledisplay module: view of one screen\n\n\n\nFigure 8 testbench shows singledisplay zoomed in to show abc cycling through for a whole screen\n\n\n\n\n\n\nFigure 9: Testbench of multi module\n\n\n\nFigure 9 testbench outputs the desired screen\n\n\n\n\n\n\n\nFigure 10: Testbench of multidisplay module: view of one row\n\n\n\nFigure 10 testbench shows multidisplay zoomed in to show counter cycling through\n\n\n\n\n\n\n\nFigure 11: Testbench of multidisplay module: view of one screen\n\n\n\nFigure 11 testbench shows multidisplay zoomed in to show abc cycling through for a whole screen\n\n\nDiscussion\nAfter the SPI module, single and multiplayer processes are run in parallel and then multiplexed before the system output, however this multiplex could also be done earlier to reduce processing power.\nline 1\nline 2"
+    "text": "FPGA\n\n\n\n\n\n\nFigure 5: Block diagram of the FPGA and LED matrix\n\n\n\nThe design for our FPGA is contained in our top module, which is shown in Figure 5. The FPGA design contains a SPI recieve module, two modules for selecting the screen (in single player or multiplayer mode), two modules which interface the selected screen into output pins for the LED matrix, and a multiplex which selects the set of output pins based on the player mode. The module that shifts in the SPI data was modified from aes_spi from Lab 7. However, we don’t need to send anything back to the MCU, so SDO will shift out nonsense. Because we intended to only use 12 bits of the received data because our resolution is only 12 bits, all our ports were sized for 12 bits, not 16. This is easily corrected in the top module.\nOnce the digital signal is recieved from the SPI module, the single and multiplayer processes are very similar. The single module is an asyncrhonous module, which outputs a 6-bit value for the screen state depending on the input of 1 player’s digital signal magnitude. The multi module is a synchronous module, which also outputs a screen value, but is determined by which players’ digital signal magnitude is greater. The multi module also has some preset screen matrices for winning screens and a start sequence, saved as .txt files.\nIn the singleplayer pipeline, the 6-bit screen state value is fed to the singledisplay module, alongside the same system clock and reset. Inside this synchronous module, the screen state corresponds directly to the magnitude of the signal and so that value is assigned to a new variable called barrier. This barrier variable denotes which pixels should be lit up, with pixels to the left of it being red and pixels the right being off, to emulate the bar filling effect when flexing harder. The module also writes the entire border as green and contains a\na row above and below the red bar to be off to create a more stark contrast.\nIn the multiplayer pipeline, the multipdisplay module functions very similar. It is also synchronous, and takes in a new set of 21 screen states. Again, the barrier method is used for the first 15 screen states, with pixels left of the barrier being red, and pixels to the right being blue. Similar border and buffer rows are written again as well. The multidisplay module has an additional six screen states for the start sequence and player winning screens. These screens are created using text files with a 16x32 matrix of 1s and 0s to mark whether the pixel is on or off. These text files are read sequentially and the appropriately mapped pixel is on for 1 and off for 0. Because the display is capable of rgb, this method restricts the leds to just one color.\nTo correctly interface with the LED display, the singledisplay and multidisplay modules we need to output two sets of 3-bit rgb values, a 3-bit abc value to select the row in the matrix, a latch, an output enable, and a clk. The matrix works by sequentially turning on two pixels at a time on each clock pulse. The two rows are selected by A, B, and C inputs which map to values 0-7, with 0 selecting rows 0 and 8, 1 selecting rows 1 and 9, etc. R1, G1, and B1 select the color of the top row, while R2, G2, and B2 select the color of the bottom. Because there are 32 bits, clk will run for a few cycles longer then latch it with the lat signal. The output enable signal will be held high until the latch is triggered, and then the next row will be written. We have the clk pulsing at a frequency of 1.5 MHz so the screen is written much faster than the human eye can detect. At this frequency, the entire screen is written every 0.192ms or at a frequency of 5.2 kHz (36 pixels per row * 16 rows per screen / 2 rows written per row state all at a frequency of 1.5MHz). Some issues did arrive with higher frequencies, as the clock signal began to bleed.\n\nTesting\n\n\n\n\n\n\nFigure 6: Testbench of single module\n\n\n\n\n\n\n\n\n\nFigure 7: Testbench of singledisplay module: view of one row\n\n\n\n\n\n\n\n\n\nFigure 8: Testbench of singledisplay module: view of one screen\n\n\n\nTesting the single player mode began with ensuring that the correct screen state was output. The testbench seen in Figure 6 demonstrates this with 12-bit digital signals between 0 and 3.3 corresponding to their correct screen value.\nThe singledisplay module was a little trickier, but Figure 7 shows the testbench zoomed in to show the clock cycling through the first row state in screen state 3. As seen, rbg for row 0 is consistently 010, so that the upper border is green. Then the rgb for row 8, which is in the middle of the screen is 100 for the first few cycles (state 3 corresponds to a bar that is roughly 4/16 full) and 000 after (when the counter is to the right of the barrier variable). This view also shows output enable being high until the row is switched and lat pulsing once the 32 bits have been written.\nFigure 8 shows the testbench, zoomed out to show abc cycling through for a whole screen. For each of the seven abc states, the same process is seen, with rgb values being written for each individual pixel and changes to lat and oe marking the end of the row.\n\n\n\n\n\n\nFigure 9: Testbench of multi module\n\n\n\n\n\n\n\n\n\nFigure 10: Testbench of multidisplay module: view of one row\n\n\n\n\n\n\n\n\n\nFigure 11: Testbench of multidisplay module: view of one screen\n\n\n\nThe simulations for multiplayer mode follow a similar process. Figure 9 shows the desired screen being output after reset. Because this mode is sequential, the first four screens are the preset start sequence, and the state changes every 0.715 Hz (a higher frequency is set for the simulation). After the start sequence, the state increases or decreases depending on which player data is a greater magnitude. Once a player reaches the winning state, that state is held until reset.\nFigure 10 is very similar to the testbench seen in singledisplay but also shows multidisplay at a zoomed in view to show clk cycling through for a whole row.\nSimilarily, Figure 11 shows a testbench of multidisplay zoomed in to show abc cycling through its seven states to light the whole screen.\n\n\nDiscussion\nAfter the SPI module, single and multiplayer processes are run in parallel and then multiplexed before the system output, however this multiplex could also be done earlier to reduce processing power."
+  },
+  {
+    "objectID": "design.html#box",
+    "href": "design.html#box",
+    "title": "Design",
+    "section": "Box",
+    "text": "Box\nWe designed a 3D printed box (Figure 12) to hide and protect all the wires and breadboards. It is a friction fit with the LED matrix on the front. The sensor breadboard goes on the shelf, and the microPs board and breakout go on the bottom. Power enters through the back and sensor wires enter through the sides.\n\n\n\n\n\n\nFigure 12: CAD drawing of part (stl file is in Github)"
   },
   {
     "objectID": "index.html",
@@ -126,11 +161,18 @@
     "text": "Ever wanted to arm wrestle, but without actually having to arm wrestle? Look no further! Our project measures the electrical signals on your skin with an EMG sensor, and uses that to control a miniature arm wrestling game. When you (and a friend) flex, the electrical signals from your nerves that tell your muscles to contract get picked up by the sticky electrodes and sent into a circuit that amplifies them so that they are big enough to measure with the analog-to-digital converter on a STM32L432KC microcontroller. The microcontroller then sends the signals to the Upduino 3.1, a field-programmable gate array (FPGA). The FPGA controls the LED matrix that displays the game. It has two modes, single and multiplayer. Selecting single player displays the raw signal as a bar chart. Selecting multiplayer displays two competing bars, and updates the relative size of each depending on how hard you flex. Getting your color to cover the entire screen means victory!"
   },
   {
+    "objectID": "index.html#new-hardware",
+    "href": "index.html#new-hardware",
+    "title": "Hands-Free Arm Wrestling",
+    "section": "New Hardware",
+    "text": "New Hardware\n\nEMG Sensors (x2) - These sensors measure electrical activity on the skin and amplify it to an analog signal.\nLED Matrix 32x16 (x1) - This display has 512 RGB LEDs and is controllable from the FPGA."
+  },
+  {
     "objectID": "index.html#specifications",
     "href": "index.html#specifications",
     "title": "Hands-Free Arm Wrestling",
     "section": "Specifications",
-    "text": "Specifications\n\nUses a custom EMG sensor\nDevice driver for ADC peripheral written\nSPI interface between MCU and FPGA\nDrives LED matrix\nSingle player and multiplayer modes\nGame effects, e.g. loading screen and victory screens"
+    "text": "Specifications\nFor this project, the team will…\n\nBuild a custom EMG sensor\nWrite a device driver for ADC peripheral\nImplement a SPI interface between MCU and FPGA\nDrive the LED matrix\nHave single player and multiplayer modes\nHave game effects, e.g. loading screen and victory screens"
   },
   {
     "objectID": "index.html#video",
@@ -138,6 +180,13 @@
     "title": "Hands-Free Arm Wrestling",
     "section": "Video",
     "text": "Video"
+  },
+  {
+    "objectID": "index.html#acknowledgements",
+    "href": "index.html#acknowledgements",
+    "title": "Hands-Free Arm Wrestling",
+    "section": "Acknowledgements",
+    "text": "Acknowledgements\nWe would like to thank Prof Brake for teaching E155 this semester! We would also like to thank Jacob in the stockroom for helping us find all the parts we needed, our E155 classmates for help and encouragement in the Digital Lab dungeon, and our friends for turning out to support on Demo Day!"
   },
   {
     "objectID": "resources.html",

@@ -97,12 +97,12 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Design</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./documentation.html"> 
-<span class="menu-text">Documentation</span></a>
-  </li>  
-  <li class="nav-item">
     <a class="nav-link" href="./results.html"> 
 <span class="menu-text">Results</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./documentation.html"> 
+<span class="menu-text">Documentation</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./resources.html"> 
@@ -128,8 +128,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#specifications" id="toc-specifications" class="nav-link active" data-scroll-target="#specifications">Specifications</a></li>
+  <li><a href="#new-hardware" id="toc-new-hardware" class="nav-link active" data-scroll-target="#new-hardware">New Hardware</a></li>
+  <li><a href="#specifications" id="toc-specifications" class="nav-link" data-scroll-target="#specifications">Specifications</a></li>
   <li><a href="#video" id="toc-video" class="nav-link" data-scroll-target="#video">Video</a></li>
+  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
   </ul>
 </nav>
     </div>
@@ -156,20 +158,32 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p>Ever wanted to arm wrestle, but without actually having to arm wrestle? Look no further! Our project measures the electrical signals on your skin with an EMG sensor, and uses that to control a miniature arm wrestling game. When you (and a friend) flex, the electrical signals from your nerves that tell your muscles to contract get picked up by the sticky electrodes and sent into a circuit that amplifies them so that they are big enough to measure with the analog-to-digital converter on a STM32L432KC microcontroller. The microcontroller then sends the signals to the Upduino 3.1, a field-programmable gate array (FPGA). The FPGA controls the LED matrix that displays the game. It has two modes, single and multiplayer. Selecting single player displays the raw signal as a bar chart. Selecting multiplayer displays two competing bars, and updates the relative size of each depending on how hard you flex. Getting your color to cover the entire screen means victory!</p>
+<section id="new-hardware" class="level2">
+<h2 class="anchored" data-anchor-id="new-hardware">New Hardware</h2>
+<ul>
+<li><strong>EMG Sensors (x2)</strong> - These sensors measure electrical activity on the skin and amplify it to an analog signal.</li>
+<li><strong>LED Matrix 32x16 (x1)</strong> - This display has 512 RGB LEDs and is controllable from the FPGA.</li>
+</ul>
+</section>
 <section id="specifications" class="level2">
 <h2 class="anchored" data-anchor-id="specifications">Specifications</h2>
+<p>For this project, the team will…</p>
 <ul class="task-list">
-<li><label><input type="checkbox">Uses a custom EMG sensor</label></li>
-<li><label><input type="checkbox">Device driver for ADC peripheral written</label></li>
-<li><label><input type="checkbox">SPI interface between MCU and FPGA</label></li>
-<li><label><input type="checkbox">Drives LED matrix</label></li>
-<li><label><input type="checkbox">Single player and multiplayer modes</label></li>
-<li><label><input type="checkbox">Game effects, e.g.&nbsp;loading screen and victory screens</label></li>
+<li><label><input type="checkbox">Build a custom EMG sensor</label></li>
+<li><label><input type="checkbox">Write a device driver for ADC peripheral</label></li>
+<li><label><input type="checkbox">Implement a SPI interface between MCU and FPGA</label></li>
+<li><label><input type="checkbox">Drive the LED matrix</label></li>
+<li><label><input type="checkbox">Have single player and multiplayer modes</label></li>
+<li><label><input type="checkbox">Have game effects, e.g.&nbsp;loading screen and victory screens</label></li>
 </ul>
 </section>
 <section id="video" class="level2">
 <h2 class="anchored" data-anchor-id="video">Video</h2>
 <div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/EtVBqZWrvIg" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</section>
+<section id="acknowledgements" class="level2">
+<h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
+<p>We would like to thank Prof Brake for teaching E155 this semester! We would also like to thank Jacob in the stockroom for helping us find all the parts we needed, our E155 classmates for help and encouragement in the Digital Lab dungeon, and our friends for turning out to support on Demo Day!</p>
 
 
 </section>

@@ -6,7 +6,6 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2024-12-05">
 
 <title>Results – Hands-Free Arm Wrestling Project Page</title>
 <style>
@@ -68,6 +67,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -98,12 +126,12 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Design</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./documentation.html"> 
-<span class="menu-text">Documentation</span></a>
-  </li>  
-  <li class="nav-item">
     <a class="nav-link active" href="./results.html" aria-current="page"> 
 <span class="menu-text">Results</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./documentation.html"> 
+<span class="menu-text">Documentation</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./resources.html"> 
@@ -124,8 +152,16 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#summary" id="toc-summary" class="nav-link active" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#gallery" id="toc-gallery" class="nav-link" data-scroll-target="#gallery">Gallery</a></li>
+  <li><a href="#future-work" id="toc-future-work" class="nav-link" data-scroll-target="#future-work">Future Work</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -140,12 +176,6 @@ ul.task-list li input[type="checkbox"] {
 <div class="quarto-title-meta">
 
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">December 5, 2024</p>
-    </div>
-  </div>
   
     
   </div>
@@ -155,8 +185,24 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>Overall, our project was a success! We were able to meet our specs that we laid out in our proposal, and produced a system that let people arm wrestle with EMG sensors.</p>
+<p>The system overall updates at a frequency of ~1 Hz. This is almost entirely due to the delay chosen in our main.c loop, as the time to read in the ADC channels (2 channels at 16 MHz taking 24.5 cycles each = 3 <span class="math inline">\(\mu\)</span> s), send the SPI signal (&gt; 10 <span class="math inline">\(\mu\)</span> s), and loop through the 512 pixels (36 counts at 1.5 MHz per pair times 8 pairs = 192 $$s) is negligable compared to the 1 full second delay. This amount of latency makes for good gameplay, as players can react to the progress shown before the game is won or lost.</p>
+<p>Our sensors were acting up on demo day, which was partly due to inoptimal quality of sensor pads and partly due to an amplifier design that didn’t have enough flexibility. We know it was the sensors and not the ADC because we checked our ADC setup with potentiometers and it worked perfectly.</p>
+</section>
+<section id="gallery" class="level2">
+<h2 class="anchored" data-anchor-id="gallery">Gallery</h2>
+<p></p><div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/oD6DZ63COCw" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div> Demonstration of FPGA and MCU properly displaying a controlled voltage input from two potentiometers, which are in place of the muscle sensors<p></p>
+<p></p><div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/4KatbFI1KDE" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div> Multiplayer mode in full display, as two fellow MicroPs students (Ket and Jason) wrestle under disco lights<p></p>
+</section>
+<section id="future-work" class="level2">
+<h2 class="anchored" data-anchor-id="future-work">Future Work</h2>
+<p>If we were to continue working on this project, it would be good to better characterize the EMG sensor outputs. We noticed as we were demoing the project that the amplification circuit worked well for Ellie, but not Daniel, presumably due to different resting skin voltages. Instead of a fixed 11k resistor on the instrumentation amp, we could have a 1k in series with a 10k potentiometer, letting us vary the gain from 10x-100x. Also, we could make a PCB for it so we have fewer connection issues (or, we could just buy the commercial version). For the MCU, it would have been cleaner to use interrupts for the ADC instead of a timer. Also, it would have been nice to test and use the offset calculation function we started working on (which could additionally be used to enable a cheating mode if we wanted to put a finger on the scale).</p>
+<p>The design of the FPGA could be improved. After the SPI module, single and multiplayer processes are run in parallel and then multiplexed before the system output, however this multiplex could also be done earlier to reduce processing power. Another area of improvement is to write modules to individual select a single pixel and set it to a desired rgb value, which would allow for much more flexibility in the screens capability. For the purpose of our project, we did not need this funcionality.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

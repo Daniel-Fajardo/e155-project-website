@@ -97,12 +97,12 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Design</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./documentation.html"> 
-<span class="menu-text">Documentation</span></a>
-  </li>  
-  <li class="nav-item">
     <a class="nav-link" href="./results.html"> 
 <span class="menu-text">Results</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./documentation.html"> 
+<span class="menu-text">Documentation</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./resources.html"> 
@@ -133,8 +133,10 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#mcu" id="toc-mcu" class="nav-link" data-scroll-target="#mcu">MCU</a></li>
   <li><a href="#fpga" id="toc-fpga" class="nav-link" data-scroll-target="#fpga">FPGA</a>
   <ul class="collapse">
+  <li><a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing">Testing</a></li>
   <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
   </ul></li>
+  <li><a href="#box" id="toc-box" class="nav-link" data-scroll-target="#box">Box</a></li>
   </ul>
 </nav>
     </div>
@@ -172,13 +174,13 @@ Figure&nbsp;1: Block diagram of the final system
 </figcaption>
 </figure>
 </div>
-<p><a href="#fig-overall-bd" class="quarto-xref">Figure&nbsp;1</a> shows the overall system block diagram. The system begins with two amplified signals from the muscle sensors, which is input into the MCU as two analog signals. The MCU then converts the signals into a concatenated 32-bit digital signals and sends the data across SPI to the FPGA. The FPGA reads the SPI signal and contains modules to determine both players’ data and displays them on the LED display through an fsm module that converts a desired screen display into the correct output pins for interfacing with the display matrix. The display matrix interprets the output signals sequentially at a frequency of 1.5MHz to display the screen.</p>
-<div id="fig-overall-schmatic" class="quarto-float quarto-figure quarto-figure-center anchored">
+<p><a href="#fig-overall-bd" class="quarto-xref">Figure&nbsp;1</a> shows the overall system block diagram. The system begins with two amplified signals from the muscle sensors, which is input into the MCU as two analog signals. The MCU then converts the signals into a concatenated 32-bit digital signals and sends the data across SPI to the FPGA. The FPGA reads the SPI signal and contains modules to determine both players’ data and displays them on the LED display through a FSM module that converts a desired screen display into the correct output pins for interfacing with the display matrix. The display matrix interprets the output signals sequentially at a frequency of 1.5MHz to display the screen.</p>
+<div id="fig-overall-schematic" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-overall-schmatic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="images/project_schmatic.png" class="img-fluid figure-img">
+<div aria-describedby="fig-overall-schematic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/project_schematic_revB.png" class="img-fluid figure-img">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-overall-schmatic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-overall-schematic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: The full system schematic
 </figcaption>
 </figure>
@@ -231,8 +233,14 @@ Figure&nbsp;5: Block diagram of the FPGA and LED matrix
 </figcaption>
 </figure>
 </div>
-<p>We have designed and started implementation of the FPGA, but it is not yet functional. The design for our first <code>demo_top</code> module is shown in <a href="#fig-fpga-bd" class="quarto-xref">Figure&nbsp;5</a>. The module that shifts in the SPI data was modified from aes_spi from Lab 7. However, we don’t need to send anything back to the MCU, so SDO will shift out nonsense. Because we intended to only use 12 bits of the received data because our resolution is only 12 bits, all our ports were sized for 12 bits, not 16. This is easily corrected in the top module. The <code>single</code> module has an FSM to determine which screen to show based on who is currently winning and who has been winning most recently. The current setup uses a <code>demo_display</code> module takes that screen and converts it into a simple led bar to show a coarse resolution. This is a temporary setup that will be replaced soon with the full LED matrix module.&nbsp;</p>
-<p>The FPGA design contains a SPI recieve moduls, two modules for selecting the screen (in single player or multiplayer mode), two modules which interface the selected screen into output pins for the LED matrix, and a multiplex which selects the set of output pins based on the player mode. The single and multiplayer processes are very similar. The single module is an asyncrhonous module, which outputs a 6-bit screen value depending on the input of 1 players’ digital signal magnitude. The multi module is a synchronous module, which also outputs a screen value, but is determined by which players’ digital signal magnitude is greater. The multi module also has a couple preset screen matrices for winning screens and a start sequence, saved as .txt files.</p>
+<p>The design for our FPGA is contained in our <code>top</code> module, which is shown in <a href="#fig-fpga-bd" class="quarto-xref">Figure&nbsp;5</a>. The FPGA design contains a SPI recieve module, two modules for selecting the screen (in single player or multiplayer mode), two modules which interface the selected screen into output pins for the LED matrix, and a multiplex which selects the set of output pins based on the player mode. The module that shifts in the SPI data was modified from aes_spi from Lab 7. However, we don’t need to send anything back to the MCU, so SDO will shift out nonsense. Because we intended to only use 12 bits of the received data because our resolution is only 12 bits, all our ports were sized for 12 bits, not 16. This is easily corrected in the top module.</p>
+<p>Once the digital signal is recieved from the <code>SPI</code> module, the single and multiplayer processes are very similar. The <code>single</code> module is an asyncrhonous module, which outputs a 6-bit value for the screen state depending on the input of 1 player’s digital signal magnitude. The <code>multi</code> module is a synchronous module, which also outputs a screen value, but is determined by which players’ digital signal magnitude is greater. The <code>multi</code> module also has some preset screen matrices for winning screens and a start sequence, saved as .txt files.</p>
+<p>In the singleplayer pipeline, the 6-bit screen state value is fed to the <code>singledisplay</code> module, alongside the same system clock and reset. Inside this synchronous module, the screen state corresponds directly to the magnitude of the signal and so that value is assigned to a new variable called barrier. This barrier variable denotes which pixels should be lit up, with pixels to the left of it being red and pixels the right being off, to emulate the bar filling effect when flexing harder. The module also writes the entire border as green and contains a<br>
+a row above and below the red bar to be off to create a more stark contrast.</p>
+<p>In the multiplayer pipeline, the <code>multipdisplay</code> module functions very similar. It is also synchronous, and takes in a new set of 21 screen states. Again, the barrier method is used for the first 15 screen states, with pixels left of the barrier being red, and pixels to the right being blue. Similar border and buffer rows are written again as well. The <code>multidisplay</code> module has an additional six screen states for the start sequence and player winning screens. These screens are created using text files with a 16x32 matrix of 1s and 0s to mark whether the pixel is on or off. These text files are read sequentially and the appropriately mapped pixel is on for 1 and off for 0. Because the display is capable of rgb, this method restricts the leds to just one color.</p>
+<p>To correctly interface with the LED display, the <code>singledisplay</code> and <code>multidisplay</code> modules we need to output two sets of 3-bit rgb values, a 3-bit abc value to select the row in the matrix, a latch, an output enable, and a clk. The matrix works by sequentially turning on two pixels at a time on each clock pulse. The two rows are selected by A, B, and C inputs which map to values 0-7, with 0 selecting rows 0 and 8, 1 selecting rows 1 and 9, etc. R1, G1, and B1 select the color of the top row, while R2, G2, and B2 select the color of the bottom. Because there are 32 bits, clk will run for a few cycles longer then latch it with the lat signal. The output enable signal will be held high until the latch is triggered, and then the next row will be written. We have the clk pulsing at a frequency of 1.5 MHz so the screen is written much faster than the human eye can detect. At this frequency, the entire screen is written every 0.192ms or at a frequency of 5.2 kHz (36 pixels per row * 16 rows per screen / 2 rows written per row state all at a frequency of 1.5MHz). Some issues did arrive with higher frequencies, as the clock signal began to bleed.</p>
+<section id="testing" class="level3">
+<h3 class="anchored" data-anchor-id="testing">Testing</h3>
 <div id="fig-single-fsm-tb" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-single-fsm-tb-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -243,7 +251,6 @@ Figure&nbsp;6: Testbench of single module
 </figcaption>
 </figure>
 </div>
-<p><a href="#fig-single-fsm-tb" class="quarto-xref">Figure&nbsp;6</a> testbench outputs the desired screen</p>
 <div id="fig-single-counter" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-single-counter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -254,7 +261,6 @@ Figure&nbsp;7: Testbench of singledisplay module: view of one row
 </figcaption>
 </figure>
 </div>
-<p><a href="#fig-single-counter" class="quarto-xref">Figure&nbsp;7</a> testbench shows singledisplay zoomed in to show counter cycling through</p>
 <div id="fig-single-abc" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-single-abc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -265,7 +271,9 @@ Figure&nbsp;8: Testbench of singledisplay module: view of one screen
 </figcaption>
 </figure>
 </div>
-<p><a href="#fig-single-abc" class="quarto-xref">Figure&nbsp;8</a> testbench shows singledisplay zoomed in to show abc cycling through for a whole screen</p>
+<p>Testing the single player mode began with ensuring that the correct screen state was output. The testbench seen in <a href="#fig-single-fsm-tb" class="quarto-xref">Figure&nbsp;6</a> demonstrates this with 12-bit digital signals between 0 and 3.3 corresponding to their correct screen value.</p>
+<p>The <code>singledisplay</code> module was a little trickier, but <a href="#fig-single-counter" class="quarto-xref">Figure&nbsp;7</a> shows the testbench zoomed in to show the clock cycling through the first row state in screen state 3. As seen, rbg for row 0 is consistently 010, so that the upper border is green. Then the rgb for row 8, which is in the middle of the screen is 100 for the first few cycles (state 3 corresponds to a bar that is roughly 4/16 full) and 000 after (when the counter is to the right of the barrier variable). This view also shows output enable being high until the row is switched and lat pulsing once the 32 bits have been written.</p>
+<p><a href="#fig-single-abc" class="quarto-xref">Figure&nbsp;8</a> shows the testbench, zoomed out to show abc cycling through for a whole screen. For each of the seven abc states, the same process is seen, with rgb values being written for each individual pixel and changes to lat and oe marking the end of the row.</p>
 <div id="fig-multi-fsm-tb" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-multi-fsm-tb-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -276,8 +284,6 @@ Figure&nbsp;9: Testbench of multi module
 </figcaption>
 </figure>
 </div>
-<p><a href="#fig-multi-fsm-tb" class="quarto-xref">Figure&nbsp;9</a> testbench outputs the desired screen<br>
-</p>
 <div id="fig-multi-counter" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-multi-counter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -288,8 +294,6 @@ Figure&nbsp;10: Testbench of multidisplay module: view of one row
 </figcaption>
 </figure>
 </div>
-<p><a href="#fig-multi-counter" class="quarto-xref">Figure&nbsp;10</a> testbench shows multidisplay zoomed in to show counter cycling through<br>
-</p>
 <div id="fig-multi-abc" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-multi-abc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -300,16 +304,30 @@ Figure&nbsp;11: Testbench of multidisplay module: view of one screen
 </figcaption>
 </figure>
 </div>
-<p><a href="#fig-multi-abc" class="quarto-xref">Figure&nbsp;11</a> testbench shows multidisplay zoomed in to show abc cycling through for a whole screen<br>
-</p>
+<p>The simulations for multiplayer mode follow a similar process. <a href="#fig-multi-fsm-tb" class="quarto-xref">Figure&nbsp;9</a> shows the desired screen being output after reset. Because this mode is sequential, the first four screens are the preset start sequence, and the state changes every 0.715 Hz (a higher frequency is set for the simulation). After the start sequence, the state increases or decreases depending on which player data is a greater magnitude. Once a player reaches the winning state, that state is held until reset.</p>
+<p><a href="#fig-multi-counter" class="quarto-xref">Figure&nbsp;10</a> is very similar to the testbench seen in <code>singledisplay</code> but also shows multidisplay at a zoomed in view to show clk cycling through for a whole row.</p>
+<p>Similarily, <a href="#fig-multi-abc" class="quarto-xref">Figure&nbsp;11</a> shows a testbench of <code>multidisplay</code> zoomed in to show abc cycling through its seven states to light the whole screen.</p>
+</section>
 <section id="discussion" class="level3">
 <h3 class="anchored" data-anchor-id="discussion">Discussion</h3>
 <p>After the SPI module, single and multiplayer processes are run in parallel and then multiplexed before the system output, however this multiplex could also be done earlier to reduce processing power.</p>
-<p>line 1<br>
-line 2</p>
-
-
 </section>
+</section>
+<section id="box" class="level2">
+<h2 class="anchored" data-anchor-id="box">Box</h2>
+<p>We designed a 3D printed box (<a href="#fig-box-drawing" class="quarto-xref">Figure&nbsp;12</a>) to hide and protect all the wires and breadboards. It is a friction fit with the LED matrix on the front. The sensor breadboard goes on the shelf, and the microPs board and breakout go on the bottom. Power enters through the back and sensor wires enter through the sides.</p>
+<div id="fig-box-drawing" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-box-drawing-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/Case Drawing.jpg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-box-drawing-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;12: CAD drawing of part (stl file is in Github)
+</figcaption>
+</figure>
+</div>
+
+
 </section>
 
 </main> <!-- /main -->
