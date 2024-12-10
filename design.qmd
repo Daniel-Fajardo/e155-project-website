@@ -63,28 +63,50 @@ As seen in @fig-mcu-4-char-spi, the ADC reads in the values and then the SPI per
 Block diagram of the FPGA and LED matrix
 :::
 
-We have designed and started implementation of the FPGA, but it is not yet functional. The design for our first `demo_top` module is 
-shown in @fig-fpga-bd. The module that shifts in the SPI data was modified from aes_spi from Lab 7. However, we don't need to send 
-anything back to the MCU, so SDO will shift out nonsense. Because we intended to only use 12 bits of the received data because our 
-resolution is only 12 bits, all our ports were sized for 12 bits, not 16. This is easily corrected in the top module. The `single` 
-module has an FSM to determine which screen to show based on who is currently winning and who has been winning most recently. The current 
-setup uses a `demo_display` module takes that screen and converts it into a simple led bar to show a coarse resolution. This is a 
-temporary setup that will be replaced soon with the full LED matrix module.\ 
 
-The FPGA design contains a SPI recieve moduls, two modules for selecting the screen (in single player or multiplayer mode), two modules 
-which interface the selected screen into output pins for the LED matrix, and a multiplex which selects the set of output pins based on 
-the player mode. The single and multiplayer processes are very similar. The single module is an asyncrhonous module, which outputs a 
-6-bit screen value depending on the input of 1 players' digital signal magnitude. The multi module is a synchronous module, which also 
-outputs a screen value, but is determined by which players' digital signal magnitude is greater. The multi module also has a couple preset 
-screen matrices for winning screens and a start sequence, saved as .txt files. 
+The design for our FPGA is contained in our `top` module, which is shown in @fig-fpga-bd. The FPGA design contains a SPI recieve module, 
+two modules for selecting the screen (in single player or multiplayer mode), two modules which interface the selected screen into output 
+pins for the LED matrix, and a multiplex which selects the set of output pins based on the player mode. The module that shifts in the SPI 
+data was modified from aes_spi from Lab 7. However, we don't need to send anything back to the MCU, so SDO will shift out nonsense. 
+Because we intended to only use 12 bits of the received data because our resolution is only 12 bits, all our ports were sized for 12 bits, 
+not 16. This is easily corrected in the top module.
 
+Once the digital signal is recieved from the `SPI` module, the single and multiplayer processes are very similar. The `single` module is an 
+asyncrhonous module, which outputs a 6-bit value for the screen state depending on the input of 1 player's digital signal magnitude. The 
+`multi` module is a synchronous module, which also outputs a screen value, but is determined by which players' digital signal magnitude 
+is greater. The `multi` module also has some preset screen matrices for winning screens and a start sequence, saved as .txt files.  
+
+In the singleplayer pipeline, the 6-bit screen state value is fed to the `singledisplay` module, alongside the same system clock and reset. 
+Inside this synchronous module, the screen state corresponds directly to the magnitude of the signal and so that value is assigned to a 
+new variable called barrier. This barrier variable denotes which pixels should be lit up, with pixels to the left of it being red and pixels 
+the right being off, to emulate the bar filling effect when flexing harder. The module also writes the entire border as green and contains a  
+a row above and below the red bar to be off to create a more stark contrast.
+
+In the multiplayer pipeline, the `multipdisplay` module functions very similar. It is also synchronous, and takes in a new set of 21 screen 
+states. Again, the barrier method is used for the first 15 screen states, with pixels left of the barrier being red, and pixels to the right 
+being blue. Similar border and buffer rows are written again as well. The `multidisplay` module has an additional six screen states for the 
+start sequence and player winning screens. These screens are created using text files with a 16x32 matrix of 1s and 0s to mark whether the 
+pixel is on or off. These text files are read sequentially and the appropriately mapped pixel is on for 1 and off for 0. Because the 
+display is capable of rgb, this method restricts the leds to just one color.
+
+To correctly interface with the LED display, the `singledisplay` and `multidisplay` modules we need to output two sets of 3-bit rgb values, 
+a 3-bit abc value to select the row in the matrix, a latch, an output enable, and a clk. The matrix works by sequentially turning on two 
+pixels at a time on each clock pulse. The two rows are selected by A, B, and C inputs which map to values 0-7, with 0 selecting rows 0 
+and 8, 1 selecting rows 1 and 9, etc. R1, G1, and B1 select the color of the top row, while R2, G2, and B2 select the color of the bottom. 
+Because there are 32 bits, clk will run for a few cycles longer then latch it with the lat signal. The output enable signal will be held 
+high until the latch is triggered, and then the next row will be written. We have the clk pulsing at a frequency of 1.5 MHz so the screen is 
+written much faster than the human eye can detect. At this frequency, the entire screen is written every 0.192ms or at a frequency of 5.2 kHz 
+(36 pixels per row * 16 rows per screen / 2 rows written per row state all at a frequency of 1.5MHz).
+
+Some issues did arrive with higher frequencies, as the clock signal began to bleed.
+
+
+### Testing
 ::: {#fig-single-fsm-tb}
 ![](images/Sim Single.jpg)
 
 Testbench of single module
 :::
-
-@fig-single-fsm-tb testbench outputs the desired screen
 
 ::: {#fig-single-counter}
 ![](images/Sim Single Display Counter.jpg)
@@ -92,15 +114,23 @@ Testbench of single module
 Testbench of singledisplay module: view of one row
 :::
 
-@fig-single-counter testbench shows singledisplay zoomed in to show counter cycling through
-
 ::: {#fig-single-abc}
 ![](images/Sim Single Display ABC.jpg)
 
 Testbench of singledisplay module: view of one screen
 :::
 
-@fig-single-abc testbench shows singledisplay zoomed in to show abc cycling through for a whole screen
+Testing the single player mode began with ensuring that the correct screen state was output. The testbench seen in @fig-single-fsm-tb 
+demonstrates this with 12-bit digital signals between 0 and 3.3 corresponding to their correct screen value.
+
+The `singledisplay` module was a little trickier, but @fig-single-counter shows the testbench zoomed in to show the clock cycling through 
+the first row state in screen state 3. As seen, rbg for row 0 is consistently 010, so that the upper border is green. Then the rgb for 
+row 8, which is in the middle of the screen is 100 for the first few cycles (state 3 corresponds to a bar that is roughly 4/16 full) and 
+000 after (when the counter is to the right of the barrier variable). This view also shows output enable being high until the row is 
+switched and lat pulsing once the 32 bits have been written.
+
+@fig-single-abc shows the testbench, zoomed out to show abc cycling through for a whole screen. For each of the seven abc states, the 
+same process is seen, with rgb values being written for each individual pixel and changes to lat and oe marking the end of the row.
 
 ::: {#fig-multi-fsm-tb}
 ![](images/Sim Multi.jpg)
@@ -108,15 +138,11 @@ Testbench of singledisplay module: view of one screen
 Testbench of multi module
 :::
 
-@fig-multi-fsm-tb testbench outputs the desired screen\
-
 ::: {#fig-multi-counter}
 ![](images/Sim Multi Display Counter.jpg)
 
 Testbench of multidisplay module: view of one row
 :::
-
-@fig-multi-counter testbench shows multidisplay zoomed in to show counter cycling through\
 
 ::: {#fig-multi-abc}
 ![](images/Sim Multi Display ABC.jpg)
@@ -124,13 +150,19 @@ Testbench of multidisplay module: view of one row
 Testbench of multidisplay module: view of one screen
 :::
 
-@fig-multi-abc testbench shows multidisplay zoomed in to show abc cycling through for a whole screen\
+The simulations for multiplayer mode follow a similar process. @fig-multi-fsm-tb shows the desired screen being output after reset. 
+Because this mode is sequential, the first four screens are the preset start sequence, and the state changes every 0.715 Hz (a higher 
+frequency is set for the simulation). After the start sequence, the state increases or decreases depending on which player data is a 
+greater magnitude. Once a player reaches the winning state, that state is held until reset.
+
+@fig-multi-counter is very similar to the testbench seen in `singledisplay` but also shows multidisplay at a zoomed in view to show clk 
+cycling through for a whole row.
+
+Similarily, @fig-multi-abc shows a testbench of `multidisplay` zoomed in to show abc cycling through its seven states to light the whole 
+screen.
 
 
 ### Discussion
 
 After the SPI module, single and multiplayer processes are run in parallel and then multiplexed before the system output, 
 however this multiplex could also be done earlier to reduce processing power.
-
-line 1  
-line 2

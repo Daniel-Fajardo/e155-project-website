@@ -3,3 +3,18 @@ title: "Results"
 date: "12/5/24"
 ---
 
+{Video of Ket and Jason} (need video link)
+
+Multiplayer mode in full display, as two fellow MicroPs students (Ket and Jason) wrestle under disco lights
+
+
+{Video of potentiometer} (need video link)
+
+Demonstration of FPGA and MCU properly displaying a controlled voltage input from two potentiometers, which are in place of the muscle sensors
+
+
+{Video of working on leg} (need video link)
+
+Demonstration of single player mode outputting full range with sensors attached to calf muscle
+
+
