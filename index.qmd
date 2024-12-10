@@ -13,15 +13,22 @@ sticky electrodes and sent into a circuit that amplifies them so that they are b
   Selecting multiplayer displays two competing bars, and updates the relative size of each depending on how hard you flex. 
   Getting your color to cover the entire screen means victory!
 
+## New Hardware
+- **EMG Sensors (x2)** - These sensors measure electrical activity on the skin and amplify it to an analog signal.
+- **LED Matrix 32x16 (x1)** - This display has 512 RGB LEDs and is controllable from the FPGA.
+
 
 ## Specifications
-
-- [ ] Uses a custom EMG sensor
-- [ ] Device driver for ADC peripheral written
-- [ ] SPI interface between MCU and FPGA
-- [ ] Drives LED matrix 
-- [ ] Single player and multiplayer modes
-- [ ] Game effects, e.g. loading screen and victory screens  
+For this project, the team will...
+- [ ] Build a custom EMG sensor
+- [ ] Write a device driver for ADC peripheral 
+- [ ] Implement a SPI interface between MCU and FPGA
+- [ ] Drive the LED matrix 
+- [ ] Have single player and multiplayer modes
+- [ ] Have game effects, e.g. loading screen and victory screens  
 
 ## Video 
 {{< video  https://youtu.be/EtVBqZWrvIg >}}
+
+## Acknowledgements
+We would like to thank Prof Brake for teaching E155 this semester! We would also like to thank Jacob in the stockroom for helping us find all the parts we needed and our 

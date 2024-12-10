@@ -1,26 +1,26 @@
 ---
 title: "Results"
-date: "12/5/24"
 ---
-
-{Video of Ket and Jason} (need video link)
-
-Multiplayer mode in full display, as two fellow MicroPs students (Ket and Jason) wrestle under disco lights
+## Summary
+Overall, our project was a success! We were able to meet our specs that we laid out in our proposal, and produced a system that let people arm wrestle with EMG sensors. 
 
 
-{Video of potentiometer} (need video link)
-
-Demonstration of FPGA and MCU properly displaying a controlled voltage input from two potentiometers, which are in place of the muscle sensors
+Our sensors were acting up on demo day, which was partly due to inoptimal quality of sensor pads and partly due to an amplifier design that didn't have enough flexibility. We know it was the sensors and not the ADC because we checked our ADC setup with potentiometers and it worked perfectly.
 
 
-{Video of working on leg} (need video link)
+## Gallery
+{{< video  https://youtu.be/oD6DZ63COCw >}} Potentiometer test
 
-Demonstration of single player mode outputting full range with sensors attached to calf muscle
+{{< video  https://youtu.be/4KatbFI1KDE >}} Playing on demo day
 
 
-### Future directions for fpga
+## Future Work
+If we were to continue working on this project, it would be good to better characterize the EMG sensor outputs. We noticed as we were demoing the project that the amplification circuit worked well for Ellie, but not Daniel, presumably due to different resting skin voltages. Instead of a fixed 11k resistor on the instrumentation amp, we could have a 1k in series with a 10k potentiometer, letting us vary the gain from 10x-100x. Also, we could make a PCB for it so we have fewer connection issues (or, we could just buy the commercial version).
+For the MCU, it would have been cleaner to use interrupts for the ADC instead of a timer. Also, it would have been nice to test and use the offset calculation function we started working on (which could additionally be used to enable a cheating mode if we wanted to put a finger on the scale).
+
 
 The design of the FPGA could be improved. After the SPI module, single and multiplayer processes are run in parallel and then multiplexed 
 before the system output, however this multiplex could also be done earlier to reduce processing power. Another area of improvement is to 
 write modules to individual select a single pixel and set it to a desired rgb value, which would allow for much more flexibility in the 
 screens capability. For the purpose of our project, we did not need this funcionality.
+
