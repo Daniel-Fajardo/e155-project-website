@@ -33,6 +33,12 @@ The checkoff sheet for our final demo to Prof Brake can be found [here](./checko
 3D printed enclosure
 :::
 
+::: {#fig-box-drawing}
+![](images/Case Drawing.jpg)
+
+CAD drawing of part (stl file is in Github)
+:::
+
 ::: {#fig-analog-bb}
 ![](images/analog_breadboard.jpg)
 
