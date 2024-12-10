@@ -69,7 +69,7 @@ two modules for selecting the screen (in single player or multiplayer mode), two
 pins for the LED matrix, and a multiplex which selects the set of output pins based on the player mode. The module that shifts in the SPI 
 data was modified from aes_spi from Lab 7. However, we don't need to send anything back to the MCU, so SDO will shift out nonsense. 
 Because we intended to only use 12 bits of the received data because our resolution is only 12 bits, all our ports were sized for 12 bits, 
-not 16. This is easily corrected in the top module.
+not 16. This is easily corrected in the top module. 
 
 Once the digital signal is recieved from the `SPI` module, the single and multiplayer processes are very similar. The `single` module is an 
 asyncrhonous module, which outputs a 6-bit value for the screen state depending on the input of 1 player's digital signal magnitude. The 
@@ -96,9 +96,8 @@ and 8, 1 selecting rows 1 and 9, etc. R1, G1, and B1 select the color of the top
 Because there are 32 bits, clk will run for a few cycles longer then latch it with the lat signal. The output enable signal will be held 
 high until the latch is triggered, and then the next row will be written. We have the clk pulsing at a frequency of 1.5 MHz so the screen is 
 written much faster than the human eye can detect. At this frequency, the entire screen is written every 0.192ms or at a frequency of 5.2 kHz 
-(36 pixels per row * 16 rows per screen / 2 rows written per row state all at a frequency of 1.5MHz).
-
-Some issues did arrive with higher frequencies, as the clock signal began to bleed.
+(36 pixels per row * 16 rows per screen / 2 rows written per row state all at a frequency of 1.5MHz). Some issues did arrive with higher 
+frequencies, as the clock signal began to bleed.
 
 
 ### Testing
@@ -160,9 +159,3 @@ cycling through for a whole row.
 
 Similarily, @fig-multi-abc shows a testbench of `multidisplay` zoomed in to show abc cycling through its seven states to light the whole 
 screen.
-
-
-### Discussion
-
-After the SPI module, single and multiplayer processes are run in parallel and then multiplexed before the system output, 
-however this multiplex could also be done earlier to reduce processing power.
